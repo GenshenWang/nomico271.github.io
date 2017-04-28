@@ -10,15 +10,15 @@
   
   <author>
     <name>GenshenWang</name>
-    
+    <email>wanggenshen_noaman@126.com</email>
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
     <title>Welcome to myblog---wgs/2017/04/27</title>
-    <link href="https://nomico271.github.io/post/Welcome-to-myblog-wgs-2017-04-27/"/>
-    <id>https://nomico271.github.io/post/Welcome-to-myblog-wgs-2017-04-27/</id>
+    <link href="https://nomico271.github.io/2017/04/27/Welcome-to-myblog-wgs-2017-04-27/"/>
+    <id>https://nomico271.github.io/2017/04/27/Welcome-to-myblog-wgs-2017-04-27/</id>
     <published>2017-04-27T02:17:49.000Z</published>
     <updated>2017-04-27T02:19:40.380Z</updated>
     
@@ -37,8 +37,8 @@
   
   <entry>
     <title>Hello World</title>
-    <link href="https://nomico271.github.io/post/hello-world/"/>
-    <id>https://nomico271.github.io/post/hello-world/</id>
+    <link href="https://nomico271.github.io/2017/04/27/hello-world/"/>
+    <id>https://nomico271.github.io/2017/04/27/hello-world/</id>
     <published>2017-04-27T02:02:40.563Z</published>
     <updated>2017-04-27T02:04:54.454Z</updated>
     
