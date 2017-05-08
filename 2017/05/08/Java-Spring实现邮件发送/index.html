@@ -4,30 +4,30 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Java + Spring Email Send | WGS-Blog</title>
+    <title>Java + Spring实现邮件的发送 | WGS-Blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="GenshenWang">
     
 
     
-    <meta name="description" content="Java + Spring 实现邮件的发送 有关邮件发送的详细内容和代码实现可参看网址：http://www.yiibai.com/javamail_api。本文只做入门介绍。  JavaMail API 介绍JavaMail API按其功能划分通常可分为如下三大类：   Message类 ：创建和解析邮件的核心API，用于创建一封邮件，可以设置发件人，收件人，邮件主题，正文信息，发送时间等信息。">
+    <meta name="description" content="Java + Spring 实现邮件的发送 有关邮件发送的详细内容和代码实现可参看网址：http://www.yiibai.com/javamail_api。 本文只做入门介绍。  JavaMail API 介绍JavaMail API按其功能划分通常可分为如下三大类：   Message类 ：创建和解析邮件的核心API，用于创建一封邮件，可以设置发件人，收件人，邮件主题，正文信息，发送时间等信息">
 <meta name="keywords">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Java + Spring Email Send">
+<meta property="og:title" content="Java + Spring实现邮件的发送">
 <meta property="og:url" content="https://nomico271.github.io/2017/05/08/Java-Spring实现邮件发送/index.html">
 <meta property="og:site_name" content="WGS-Blog">
-<meta property="og:description" content="Java + Spring 实现邮件的发送 有关邮件发送的详细内容和代码实现可参看网址：http://www.yiibai.com/javamail_api。本文只做入门介绍。  JavaMail API 介绍JavaMail API按其功能划分通常可分为如下三大类：   Message类 ：创建和解析邮件的核心API，用于创建一封邮件，可以设置发件人，收件人，邮件主题，正文信息，发送时间等信息。">
+<meta property="og:description" content="Java + Spring 实现邮件的发送 有关邮件发送的详细内容和代码实现可参看网址：http://www.yiibai.com/javamail_api。 本文只做入门介绍。  JavaMail API 介绍JavaMail API按其功能划分通常可分为如下三大类：   Message类 ：创建和解析邮件的核心API，用于创建一封邮件，可以设置发件人，收件人，邮件主题，正文信息，发送时间等信息">
 <meta property="og:image" content="https://nomico271.github.io/img/email/1.png">
 <meta property="og:image" content="https://nomico271.github.io/img/email/2.png">
 <meta property="og:image" content="https://nomico271.github.io/img/email/3.png">
 <meta property="og:image" content="https://nomico271.github.io/img/email/4.png">
 <meta property="og:image" content="https://nomico271.github.io/img/email/5.png">
 <meta property="og:image" content="https://nomico271.github.io/img/email/6.png">
-<meta property="og:updated_time" content="2017-05-08T09:46:18.451Z">
+<meta property="og:updated_time" content="2017-05-08T09:51:35.111Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Java + Spring Email Send">
-<meta name="twitter:description" content="Java + Spring 实现邮件的发送 有关邮件发送的详细内容和代码实现可参看网址：http://www.yiibai.com/javamail_api。本文只做入门介绍。  JavaMail API 介绍JavaMail API按其功能划分通常可分为如下三大类：   Message类 ：创建和解析邮件的核心API，用于创建一封邮件，可以设置发件人，收件人，邮件主题，正文信息，发送时间等信息。">
+<meta name="twitter:title" content="Java + Spring实现邮件的发送">
+<meta name="twitter:description" content="Java + Spring 实现邮件的发送 有关邮件发送的详细内容和代码实现可参看网址：http://www.yiibai.com/javamail_api。 本文只做入门介绍。  JavaMail API 介绍JavaMail API按其功能划分通常可分为如下三大类：   Message类 ：创建和解析邮件的核心API，用于创建一封邮件，可以设置发件人，收件人，邮件主题，正文信息，发送时间等信息">
 <meta name="twitter:image" content="https://nomico271.github.io/img/email/1.png">
 
     
@@ -84,7 +84,7 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/05/08/Java-Spring实现邮件发送/" title="Java + Spring Email Send" itemprop="url">Java + Spring Email Send</a>
+      <a href="/2017/05/08/Java-Spring实现邮件发送/" title="Java + Spring实现邮件的发送" itemprop="url">Java + Spring实现邮件的发送</a>
   </h1>
   <p class="article-author">By
        
@@ -105,7 +105,7 @@
 		</div>
 		
 		<p>Java + Spring 实现邮件的发送</p>
-<p>有关邮件发送的详细内容和代码实现可参看网址：<a href="http://www.yiibai.com/javamail_api。本文只做入门介绍。" target="_blank" rel="external">http://www.yiibai.com/javamail_api。本文只做入门介绍。</a></p>
+<p>有关邮件发送的详细内容和代码实现可参看网址：<a href="http://www.yiibai.com/javamail_api。" target="_blank" rel="external">http://www.yiibai.com/javamail_api。</a> 本文只做入门介绍。</p>
 <hr>
 <h2 id="JavaMail-API-介绍"><a href="#JavaMail-API-介绍" class="headerlink" title="JavaMail API 介绍"></a><strong>JavaMail API 介绍</strong></h2><p><strong>JavaMail API</strong>按其功能划分通常可分为如下三大类：</p>
 <blockquote>
@@ -158,7 +158,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://nomico271.github.io/2017/05/08/Java-Spring实现邮件发送/" data-title="Java + Spring Email Send | WGS-Blog" data-tsina="undefined" class="share clearfix">
+	  <div data-url="https://nomico271.github.io/2017/05/08/Java-Spring实现邮件发送/" data-title="Java + Spring实现邮件的发送 | WGS-Blog" data-tsina="undefined" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -184,7 +184,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2017/05/08/Java-Spring实现邮件发送/" data-title="Java + Spring Email Send" data-url="https://nomico271.github.io/2017/05/08/Java-Spring实现邮件发送/"></div>
+	<div class="ds-thread" data-thread-key="2017/05/08/Java-Spring实现邮件发送/" data-title="Java + Spring实现邮件的发送" data-url="https://nomico271.github.io/2017/05/08/Java-Spring实现邮件发送/"></div>
 </section>
 
 
