@@ -11,24 +11,21 @@
     
 
     
-    <meta name="description" content="Java + Spring 实现邮件的发送 有关邮件发送的详细内容和代码实现可参看网址：http://www.yiibai.com/javamail_api。本文只做入门介绍。  ##JavaMail API 介绍JavaMail API按其功能划分通常可分为如下三大类：   Message类 ：创建和解析邮件的核心API，用于创建一封邮件，可以设置发件人，收件人，邮件主题，正文信息，发送时间等信">
+    <meta name="description" content="Java + Spring 实现邮件的发送 有关邮件发送的详细内容和代码实现可参看网址：http://www.yiibai.com/javamail_api。本文只做入门介绍。  JavaMail API 介绍JavaMail API按其功能划分通常可分为如下三大类：   Message类 ：创建和解析邮件的核心API，用于创建一封邮件，可以设置发件人，收件人，邮件主题，正文信息，发送时间等信息。">
 <meta name="keywords">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java + Spring Email Send">
 <meta property="og:url" content="https://nomico271.github.io/2017/05/08/Java-Spring实现邮件发送/index.html">
 <meta property="og:site_name" content="WGS-Blog">
-<meta property="og:description" content="Java + Spring 实现邮件的发送 有关邮件发送的详细内容和代码实现可参看网址：http://www.yiibai.com/javamail_api。本文只做入门介绍。  ##JavaMail API 介绍JavaMail API按其功能划分通常可分为如下三大类：   Message类 ：创建和解析邮件的核心API，用于创建一封邮件，可以设置发件人，收件人，邮件主题，正文信息，发送时间等信">
-<meta property="og:image" content="https://nomico271.github.io/img/email/1.png">
-<meta property="og:image" content="https://nomico271.github.io/img/email/2.png">
-<meta property="og:image" content="https://nomico271.github.io/img/email/3.png">
+<meta property="og:description" content="Java + Spring 实现邮件的发送 有关邮件发送的详细内容和代码实现可参看网址：http://www.yiibai.com/javamail_api。本文只做入门介绍。  JavaMail API 介绍JavaMail API按其功能划分通常可分为如下三大类：   Message类 ：创建和解析邮件的核心API，用于创建一封邮件，可以设置发件人，收件人，邮件主题，正文信息，发送时间等信息。">
 <meta property="og:image" content="https://nomico271.github.io/img/email/4.png">
 <meta property="og:image" content="https://nomico271.github.io/img/email/5.png">
 <meta property="og:image" content="https://nomico271.github.io/img/email/6.png">
-<meta property="og:updated_time" content="2017-05-08T09:40:48.423Z">
+<meta property="og:updated_time" content="2017-05-08T09:43:00.104Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java + Spring Email Send">
-<meta name="twitter:description" content="Java + Spring 实现邮件的发送 有关邮件发送的详细内容和代码实现可参看网址：http://www.yiibai.com/javamail_api。本文只做入门介绍。  ##JavaMail API 介绍JavaMail API按其功能划分通常可分为如下三大类：   Message类 ：创建和解析邮件的核心API，用于创建一封邮件，可以设置发件人，收件人，邮件主题，正文信息，发送时间等信">
-<meta name="twitter:image" content="https://nomico271.github.io/img/email/1.png">
+<meta name="twitter:description" content="Java + Spring 实现邮件的发送 有关邮件发送的详细内容和代码实现可参看网址：http://www.yiibai.com/javamail_api。本文只做入门介绍。  JavaMail API 介绍JavaMail API按其功能划分通常可分为如下三大类：   Message类 ：创建和解析邮件的核心API，用于创建一封邮件，可以设置发件人，收件人，邮件主题，正文信息，发送时间等信息。">
+<meta name="twitter:image" content="https://nomico271.github.io/img/email/4.png">
 
     
     <link rel="alternative" href="/atom.xml" title="WGS-Blog" type="application/atom+xml">
@@ -100,14 +97,14 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#开启SMTP服务"><span class="toc-number">1.</span> <span class="toc-text">开启SMTP服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java-SE-发送Email"><span class="toc-number">2.</span> <span class="toc-text">Java SE 发送Email</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用Spring发送Email"><span class="toc-number">3.</span> <span class="toc-text">使用Spring发送Email</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#JavaMail-API-介绍"><span class="toc-number">1.</span> <span class="toc-text">JavaMail API 介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#开启SMTP服务"><span class="toc-number">2.</span> <span class="toc-text">开启SMTP服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java-SE-发送Email"><span class="toc-number">3.</span> <span class="toc-text">Java SE 发送Email</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用Spring发送Email"><span class="toc-number">4.</span> <span class="toc-text">使用Spring发送Email</span></a></li></ol>
 		
 		</div>
 		
 		<p>Java + Spring 实现邮件的发送</p>
 <p>有关邮件发送的详细内容和代码实现可参看网址：<a href="http://www.yiibai.com/javamail_api。本文只做入门介绍。" target="_blank" rel="external">http://www.yiibai.com/javamail_api。本文只做入门介绍。</a></p>
 <hr>
-<p>##<strong>JavaMail API 介绍</strong><br><strong>JavaMail API</strong>按其功能划分通常可分为如下三大类：</p>
+<h2 id="JavaMail-API-介绍"><a href="#JavaMail-API-介绍" class="headerlink" title="JavaMail API 介绍"></a><strong>JavaMail API 介绍</strong></h2><p><strong>JavaMail API</strong>按其功能划分通常可分为如下三大类：</p>
 <blockquote>
 <ul>
 <li><strong>Message类</strong> ：创建和解析邮件的核心API，用于创建一封邮件，可以设置发件人，收件人，邮件主题，正文信息，发送时间等信息。</li>
@@ -119,9 +116,9 @@
 <blockquote>
 <p><strong>SMTP协议</strong>: 发送邮件协议；<br><strong>POP3协议</strong> :  获取邮件协议；<br><strong>IMAP</strong> :  接收信息的高级协议；<br><strong>MIME</strong> :  邮件拓展内容格式：信息格式，附件格式；</p>
 </blockquote>
-<p>下图用于演示两帐户相互发送邮件的过程:<br><img src="/img/email/1.png" alt="Alt text"></p>
-<h2 id="开启SMTP服务"><a href="#开启SMTP服务" class="headerlink" title="开启SMTP服务"></a>开启SMTP服务</h2><p>因为本文只做如何发送邮件的介绍，发送邮件跟SMTP协议相关，所以在发送前需要保证所使用的邮件客户端开启了SMTP相关服务。本文采用的是QQ邮箱（也可以改用163邮箱)。<br>下面讲述下如何在qq邮箱中开启SMTP服务：<br><img src="/img/email/2.png" alt="Alt text"></p>
-<p>首先进入qq邮箱点击设置，在账户里可看到开启服务项，点击开启(照片中我已开启服务)，会弹出让你发送短信”<strong>配置邮件客户端</strong>“的提示框。<br>按照要求发送短信后点击”我已发送”，会接收到一个像下面图片中的授权码，这个授权码要记下来，在后续代码实现中的密码用到的就是这个授权码(不是qq账号密码)：<br><img src="/img/email/3.png" alt="Alt text"></p>
+<p>下图用于演示两帐户相互发送邮件的过程:<br>!(/img/email/1.png)</p>
+<h2 id="开启SMTP服务"><a href="#开启SMTP服务" class="headerlink" title="开启SMTP服务"></a>开启SMTP服务</h2><p>因为本文只做如何发送邮件的介绍，发送邮件跟SMTP协议相关，所以在发送前需要保证所使用的邮件客户端开启了SMTP相关服务。本文采用的是QQ邮箱（也可以改用163邮箱)。<br>下面讲述下如何在qq邮箱中开启SMTP服务：<br>!(/img/email/2.png)</p>
+<p>首先进入qq邮箱点击设置，在账户里可看到开启服务项，点击开启(照片中我已开启服务)，会弹出让你发送短信”<strong>配置邮件客户端</strong>“的提示框。<br>按照要求发送短信后点击”我已发送”，会接收到一个像下面图片中的授权码，这个授权码要记下来，在后续代码实现中的密码用到的就是这个授权码(不是qq账号密码)：<br>!(/img/email/3.png)</p>
 <hr>
 <p>##<strong>代码实现：</strong></p>
 <h2 id="Java-SE-发送Email"><a href="#Java-SE-发送Email" class="headerlink" title="Java SE 发送Email"></a>Java SE 发送Email</h2><p>首先引入jar包：<br>下载Javax Mail的jar包<a href="https://java.net/projects/javamail/pages/Home" target="_blank" rel="external">https://java.net/projects/javamail/pages/Home</a> </p>
@@ -195,7 +192,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#开启SMTP服务"><span class="toc-number">1.</span> <span class="toc-text">开启SMTP服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java-SE-发送Email"><span class="toc-number">2.</span> <span class="toc-text">Java SE 发送Email</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用Spring发送Email"><span class="toc-number">3.</span> <span class="toc-text">使用Spring发送Email</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#JavaMail-API-介绍"><span class="toc-number">1.</span> <span class="toc-text">JavaMail API 介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#开启SMTP服务"><span class="toc-number">2.</span> <span class="toc-text">开启SMTP服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java-SE-发送Email"><span class="toc-number">3.</span> <span class="toc-text">Java SE 发送Email</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用Spring发送Email"><span class="toc-number">4.</span> <span class="toc-text">使用Spring发送Email</span></a></li></ol>
  
   </div>
 
