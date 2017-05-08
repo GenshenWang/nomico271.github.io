@@ -30,6 +30,9 @@
     <link rel="icon" href="/img/favicon.ico">
     
     
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
     <link rel="stylesheet" href="/css/style.css">
 </head>
 
@@ -52,18 +55,19 @@
 				<ul>
 					<ul>
 					 
-						<li><a href="/">首页</a></li>
+						<li><a href="/">Home</a></li>
 					
-						<li><a href="/archives">归档</a></li>
+						<li><a href="/archives">Archives</a></li>
 					
-						<li><a href="/about">关于我</a></li>
+						<li><a href="/about">About</a></li>
 					
 					<li>
  					
-						<form class="search" action="https://www.baidu.com" target="_blank">
-							<label>Search</label>
-						<input name="s" type="hidden" value= 夏目先森wgs ><input type="text" name="q" size="30" placeholder="搜索"><br>
-						</form>
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:nomico271.github.io">
+					</form>
 					
 					</li>
 				</ul>
@@ -118,7 +122,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://nomico271.github.io/2017/04/27/hello-world/" data-title="Hello World | WGS-Blog" data-tsina="undefined" class="share clearfix">
+	  <div data-url="https://nomico271.github.io/2017/04/27/hello-world/" data-title="Hello World | WGS-Blog" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -143,10 +147,6 @@
 </nav>
 
 	
-<section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2017/04/27/hello-world/" data-title="Hello World" data-url="https://nomico271.github.io/2017/04/27/hello-world/"></div>
-</section>
-
 
 </div>  
       <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
@@ -164,6 +164,9 @@
 
   
 
+
+  
+
   
 
   <div class="linkslist">
@@ -172,19 +175,13 @@
         
           <li>
             
-            	<a href="https://github.com/nomico271" target="_blank" title="我的Github">我的Github</a>
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
             
           </li>
         
           <li>
             
-            	<a href="http://blog.csdn.net/noaman_wgs/article/details/53893948" target="_blank" title="我的CSDN Blog">我的CSDN Blog</a>
-            
-          </li>
-        
-          <li>
-            
-            	<a href="http://blog.csdn.net/xiao__gui/article/month/2012/06" target="_blank" title="吴操的CSDN Blog">吴操的CSDN Blog</a>
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
             
           </li>
         
@@ -193,7 +190,16 @@
 
   
 
-  
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=null&verifier=b3593ceb&dpc=1"></iframe>
+</div>
+
 
 </aside>
 </div>
@@ -207,16 +213,13 @@
 	
 	
 	<section class="info">
-		<p> Hi ,I&#39;m WangGenshen. <br/>
-			热爱编程热爱Java,梦想早日成为独挡一面的Java工程师.</p>
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
 	</section>
 	 
 	<div class="social-font" class="clearfix">
 		
-		<a href="http://weibo.com/2402772733" target="_blank" class="icon-weibo" title="微博"></a>
-		
-		
-		<a href="https://github.com/nomico271" target="_blank" class="icon-github" title="github"></a>
+		<a href="http://weibo.com/2176287895" target="_blank" class="icon-weibo" title="微博"></a>
 		
 		
 		
@@ -226,7 +229,6 @@
 		
 		
 		
-		<a href="mailto:wangenshen_noaman@126.com" target="_blank" class="icon-email" title="Email Me"></a>
 		
 	</div>
 			
@@ -371,18 +373,6 @@ $(document).ready(function(){
 
 
 
-<script type="text/javascript">
-  var duoshuoQuery = {short_name:"Noaman"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-    || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-</script> 
-
 
 
 
@@ -420,7 +410,7 @@ $(document).ready(function(){
 var _hmt = _hmt || [];
 (function() {
   var hm = document.createElement("script");
-  hm.src = "//hm.baidu.com/hm.js?b7c82b0ed3eaea99c7246f534490516e";
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
   var s = document.getElementsByTagName("script")[0]; 
   s.parentNode.insertBefore(hm, s);
 })();
