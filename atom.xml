@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://nomico271.github.io/"/>
-  <updated>2017-05-08T12:25:33.583Z</updated>
+  <updated>2017-05-08T12:27:00.145Z</updated>
   <id>https://nomico271.github.io/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="https://nomico271.github.io/2017/05/08/Java-Spring%E5%AE%9E%E7%8E%B0%E9%82%AE%E4%BB%B6%E5%8F%91%E9%80%81/"/>
     <id>https://nomico271.github.io/2017/05/08/Java-Spring实现邮件发送/</id>
     <published>2017-05-08T09:22:19.000Z</published>
-    <updated>2017-05-08T12:25:33.583Z</updated>
+    <updated>2017-05-08T12:27:00.145Z</updated>
     
     <content type="html"><![CDATA[<p>Java + Spring 实现邮件的发送</p>
 <p>有关邮件发送的详细内容和代码实现可参看网址：<a href="http://www.yiibai.com/javamail_api。" target="_blank" rel="external">http://www.yiibai.com/javamail_api。</a> 本文只做入门介绍。</p>
@@ -72,6 +72,8 @@
 &lt;p&gt;有关邮件发送的详细内容和代码实现可参看网址：&lt;a href=&quot;http://www.yiibai.com/javamail_api。&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;http://ww
     
     </summary>
+    
+      <category term="SSM" scheme="https://nomico271.github.io/categories/SSM/"/>
     
     
       <category term="Spring" scheme="https://nomico271.github.io/tags/Spring/"/>
