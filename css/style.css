@@ -119,6 +119,7 @@ a img {
 }
 body {
   background: #ddd;
+  background-image: url("/img/bg.jpg");
   font-family: "Helvetica Neue", "Helvetica", "Microsoft YaHei", "WenQuanYi Micro Hei", Arial, sans-serif;
   font-size: 100%;
   color: #817c7c;
@@ -418,6 +419,7 @@ body >header a {
 }
 #imglogo {
   float: left;
+  border-radius: 100%;
   width: 4em;
   height: 4em;
 }
