@@ -1,0 +1,541 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Java + Spring实现邮件的发送 | WGS-Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="GenshenWang">
+    
+
+    
+    <meta name="description" content="Java + Spring 实现邮件的发送 有关邮件发送的详细内容和代码实现可参看网址：http://www.yiibai.com/javamail_api。 本文只做入门介绍。  JavaMail API 介绍JavaMail API按其功能划分通常可分为如下三大类：   Message类 ：创建和解析邮件的核心API，用于创建一封邮件，可以设置发件人，收件人，邮件主题，正文信息，发送时间等信息">
+<meta name="keywords" content="Spring">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java + Spring实现邮件的发送">
+<meta property="og:url" content="https://nomico271.github.io/2017/05/08/Java-Spring实现邮件发送/index.html">
+<meta property="og:site_name" content="WGS-Blog">
+<meta property="og:description" content="Java + Spring 实现邮件的发送 有关邮件发送的详细内容和代码实现可参看网址：http://www.yiibai.com/javamail_api。 本文只做入门介绍。  JavaMail API 介绍JavaMail API按其功能划分通常可分为如下三大类：   Message类 ：创建和解析邮件的核心API，用于创建一封邮件，可以设置发件人，收件人，邮件主题，正文信息，发送时间等信息">
+<meta property="og:image" content="https://nomico271.github.io/img/email/1.png">
+<meta property="og:image" content="https://nomico271.github.io/img/email/2.png">
+<meta property="og:image" content="https://nomico271.github.io/img/email/3.png">
+<meta property="og:image" content="https://nomico271.github.io/img/email/4.png">
+<meta property="og:image" content="https://nomico271.github.io/img/email/5.png">
+<meta property="og:image" content="https://nomico271.github.io/img/email/6.png">
+<meta property="og:updated_time" content="2017-05-09T02:22:32.561Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java + Spring实现邮件的发送">
+<meta name="twitter:description" content="Java + Spring 实现邮件的发送 有关邮件发送的详细内容和代码实现可参看网址：http://www.yiibai.com/javamail_api。 本文只做入门介绍。  JavaMail API 介绍JavaMail API按其功能划分通常可分为如下三大类：   Message类 ：创建和解析邮件的核心API，用于创建一封邮件，可以设置发件人，收件人，邮件主题，正文信息，发送时间等信息">
+<meta name="twitter:image" content="https://nomico271.github.io/img/email/1.png">
+
+    
+    <link rel="alternative" href="/atom.xml" title="WGS-Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="WGS-Blog" title="WGS-Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="WGS-Blog">WGS-Blog</a></h1>
+				<h2 class="blog-motto">Welcome to the real world,it is suck but you gonna love it.</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于我</a></li>
+					
+					<li>
+ 					
+						<form class="search" action="https://www.baidu.com" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= 夏目先森wgs ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/05/08/Java-Spring实现邮件发送/" title="Java + Spring实现邮件的发送" itemprop="url">Java + Spring实现邮件的发送</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="GenshenWang" target="_blank" itemprop="author">GenshenWang</a>
+		
+  <p class="article-time">
+    <time datetime="2017-05-08T09:22:19.000Z" itemprop="datePublished"> 发表于 2017-05-08</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#JavaMail-API-介绍"><span class="toc-number">1.</span> <span class="toc-text">JavaMail API 介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#开启SMTP服务"><span class="toc-number">2.</span> <span class="toc-text">开启SMTP服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#代码实现："><span class="toc-number">3.</span> <span class="toc-text">代码实现：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java-SE-发送Email"><span class="toc-number">4.</span> <span class="toc-text">Java SE 发送Email</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用Spring发送Email"><span class="toc-number">5.</span> <span class="toc-text">使用Spring发送Email</span></a></li></ol>
+		
+		</div>
+		
+		<p>Java + Spring 实现邮件的发送</p>
+<p>有关邮件发送的详细内容和代码实现可参看网址：<a href="http://www.yiibai.com/javamail_api。" target="_blank" rel="external">http://www.yiibai.com/javamail_api。</a> 本文只做入门介绍。</p>
+<hr>
+<h2 id="JavaMail-API-介绍"><a href="#JavaMail-API-介绍" class="headerlink" title="JavaMail API 介绍"></a><strong>JavaMail API 介绍</strong></h2><p><strong>JavaMail API</strong>按其功能划分通常可分为如下三大类：</p>
+<blockquote>
+<ul>
+<li><strong>Message类</strong> ：创建和解析邮件的核心API，用于创建一封邮件，可以设置发件人，收件人，邮件主题，正文信息，发送时间等信息。</li>
+<li><strong>Transport类</strong>：发送邮件的核心API类</li>
+<li><strong>Store类</strong>：接收邮件的核心API类</li>
+</ul>
+</blockquote>
+<p><strong>邮件相关协议：</strong></p>
+<blockquote>
+<p><strong>SMTP协议</strong>: 发送邮件协议；<br><strong>POP3协议</strong> :  获取邮件协议；<br><strong>IMAP</strong> :  接收信息的高级协议；<br><strong>MIME</strong> :  邮件拓展内容格式：信息格式，附件格式；</p>
+</blockquote>
+<p>下图用于演示两帐户相互发送邮件的过程:<br><img src="/img/email/1.png" alt=""></p>
+<h2 id="开启SMTP服务"><a href="#开启SMTP服务" class="headerlink" title="开启SMTP服务"></a><strong>开启SMTP服务</strong></h2><p>因为本文只做如何发送邮件的介绍，发送邮件跟SMTP协议相关，所以在发送前需要保证所使用的邮件客户端开启了SMTP相关服务。本文采用的是QQ邮箱（也可以改用163邮箱)。<br>下面讲述下如何在qq邮箱中开启SMTP服务：<br><img src="/img/email/2.png" alt=""></p>
+<p>首先进入qq邮箱点击设置，在账户里可看到开启服务项，点击开启(照片中我已开启服务)，会弹出让你发送短信”<strong>配置邮件客户端</strong>“的提示框。<br>按照要求发送短信后点击”我已发送”，会接收到一个像下面图片中的授权码，这个授权码要记下来，在后续代码实现中的密码用到的就是这个授权码(不是qq账号密码)：<br><img src="/img/email/3.png" alt=""></p>
+<hr>
+<h2 id="代码实现："><a href="#代码实现：" class="headerlink" title="代码实现："></a><strong>代码实现：</strong></h2><h2 id="Java-SE-发送Email"><a href="#Java-SE-发送Email" class="headerlink" title="Java SE 发送Email"></a>Java SE 发送Email</h2><p>首先引入jar包：<br>下载Javax Mail的jar包<a href="https://java.net/projects/javamail/pages/Home" target="_blank" rel="external">https://java.net/projects/javamail/pages/Home</a> </p>
+<p>下面是实现的代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div></pre></td><td class="code"><pre><div class="line">package test2;</div><div class="line"></div><div class="line">import java.util.Date;</div><div class="line">import java.util.Properties;</div><div class="line"></div><div class="line">import javax.mail.PasswordAuthentication;</div><div class="line">import javax.mail.Session;</div><div class="line">import javax.mail.Transport;</div><div class="line">import javax.mail.internet.InternetAddress;</div><div class="line">import javax.mail.internet.MimeMessage;</div><div class="line"></div><div class="line">public class JavaMailDemo &#123;</div><div class="line"></div><div class="line">	 // 发件人的 邮箱(qq邮箱)</div><div class="line">    public static String senderEmailAccount = &quot;1032335358@qq.com&quot;;</div><div class="line">    //此为SMTP客户端的授权码</div><div class="line">    public static String senderEmailPassword = &quot;****&quot;;</div><div class="line">    // 发件人邮箱的 SMTP 服务器地址</div><div class="line">    public static String senderEmailSMTPHost = &quot;smtp.qq.com&quot;;</div><div class="line">    // 收件人邮箱（替换为自己知道的有效邮箱）</div><div class="line">    public static String receiverMailAccount = &quot;1032335358@qq.com&quot;;</div><div class="line">    </div><div class="line"></div><div class="line">    public static void main(String[] args) throws Exception &#123;</div><div class="line">    	</div><div class="line">        // 1. 创建参数配置</div><div class="line">        Properties props = new Properties();                   </div><div class="line">        props.setProperty(&quot;mail.transport.protocol&quot;, &quot;smtp&quot;);  </div><div class="line">        props.setProperty(&quot;mail.smtp.host&quot;, senderEmailSMTPHost);  </div><div class="line">        props.setProperty(&quot;mail.smtp.auth&quot;, &quot;true&quot;);   </div><div class="line">        // SMTP 服务器的端口</div><div class="line">        final String smtpPort = &quot;465&quot;;</div><div class="line">        props.setProperty(&quot;mail.smtp.port&quot;, smtpPort);</div><div class="line">        props.setProperty(&quot;mail.smtp.socketFactory.class&quot;, &quot;javax.net.ssl.SSLSocketFactory&quot;);</div><div class="line">        props.setProperty(&quot;mail.smtp.socketFactory.fallback&quot;, &quot;false&quot;);</div><div class="line">        props.setProperty(&quot;mail.smtp.socketFactory.port&quot;, smtpPort);</div><div class="line"></div><div class="line">        // 2. 根据配置创建会话对象, 用于和邮件服务器交互</div><div class="line">        // Get the Session object.</div><div class="line">        Session session = Session.getInstance(props,</div><div class="line">           new javax.mail.Authenticator() &#123;</div><div class="line">              protected PasswordAuthentication getPasswordAuthentication() &#123;</div><div class="line">                 return new PasswordAuthentication(senderEmailAccount, senderEmailPassword);</div><div class="line">              &#125;</div><div class="line">           &#125;);</div><div class="line">        session.setDebug(true);                                 // 设置为debug模式, 可以查看详细的发送 log</div><div class="line"></div><div class="line">        // 4. 根据 Session 获取邮件传输对象</div><div class="line">		Transport transport = null;</div><div class="line">		try &#123;</div><div class="line">			// 3. 创建一封邮件</div><div class="line">			MimeMessage message = createMimeMessage(session, senderEmailAccount, receiverMailAccount);</div><div class="line"></div><div class="line">			transport = session.getTransport();</div><div class="line"></div><div class="line">			// 5. 使用 邮箱账号 和 密码 连接邮件服务器</div><div class="line">			transport.connect(senderEmailAccount, senderEmailPassword);</div><div class="line"></div><div class="line">			// 6. 发送邮件, 发到所有的收件地址, message.getAllRecipients() 获取到的是在创建邮件对象时添加的所有收件人, 抄送人, 密送人</div><div class="line">			transport.sendMessage(message, message.getAllRecipients());</div><div class="line">		&#125; catch (Exception e) &#123;</div><div class="line">			e.printStackTrace();</div><div class="line">		&#125;finally &#123;</div><div class="line">			// 7. 关闭连接</div><div class="line">			transport.close();</div><div class="line">		&#125;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 创建一封只包含文本的简单邮件</div><div class="line">     *</div><div class="line">     * @param session 和服务器交互的会话</div><div class="line">     * @param sendMail 发件人邮箱</div><div class="line">     * @param receiveMail 收件人邮箱</div><div class="line">     * @return</div><div class="line">     * @throws Exception</div><div class="line">     */</div><div class="line">    public static MimeMessage createMimeMessage(Session session, String sendMail, String receiveMail) throws Exception &#123;</div><div class="line">        // 1. 创建一封邮件</div><div class="line">        MimeMessage message = new MimeMessage(session);</div><div class="line"></div><div class="line">        // 2. From: 发件人</div><div class="line">        message.setFrom(new InternetAddress(sendMail, &quot;QQ邮箱&quot;, &quot;UTF-8&quot;));</div><div class="line"></div><div class="line">        // 3. To: 收件人（可以增加多个收件人、抄送、密送）</div><div class="line">        message.setRecipient(MimeMessage.RecipientType.TO, new InternetAddress(receiveMail, &quot;1032335358@qq.com&quot;, &quot;UTF-8&quot;));</div><div class="line"></div><div class="line">        // 4. Subject: 邮件主题</div><div class="line">        message.setSubject(&quot;邮箱登录异常&quot;, &quot;UTF-8&quot;);</div><div class="line"></div><div class="line">        // 5. Content: 邮件正文（可以使用html标签）</div><div class="line">        message.setContent(&quot;您好，您的QQ邮箱账号异常，请重新登录！&quot;, &quot;text/html;charset=UTF-8&quot;);</div><div class="line"></div><div class="line">        // 6. 设置发件时间</div><div class="line">        message.setSentDate(new Date());</div><div class="line"></div><div class="line">        // 7. 保存设置</div><div class="line">        message.saveChanges();</div><div class="line"></div><div class="line">        return message;</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>程序运行成功以后，即可收到一封类似下图的邮件：<br><img src="/img/email/4.png" alt=""></p>
+<hr>
+<h2 id="使用Spring发送Email"><a href="#使用Spring发送Email" class="headerlink" title="使用Spring发送Email"></a><strong>使用Spring发送Email</strong></h2><p>Spring Email 抽象的核心是MailSender接口，MailSender的实现能够通过连接Email服务器实现邮件发送的功能。</p>
+<p>Spring自带了一个MailSender的实现：JavaMailSenderImpl. 它会使用JavaMail API来发送Email。</p>
+<p>下面是代码实现：</p>
+<ol>
+<li><p>首先引入必须的jar包：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;dependency&gt;</div><div class="line">   &lt;groupId&gt;com.sun.mail&lt;/groupId&gt;       </div><div class="line">   &lt;artifactId&gt;javax.mail&lt;/artifactId&gt;</div><div class="line">   &lt;version&gt;1.5.5&lt;/version&gt;</div><div class="line">&lt;/dependency&gt;</div></pre></td></tr></table></figure>
+</li>
+<li><p>配置邮件发送器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div></pre></td><td class="code"><pre><div class="line">package com.wgs.mailSender.util;</div><div class="line"></div><div class="line">import org.slf4j.Logger;</div><div class="line">import org.slf4j.LoggerFactory;</div><div class="line">import org.springframework.beans.factory.InitializingBean;</div><div class="line">import org.springframework.mail.SimpleMailMessage;</div><div class="line">import org.springframework.mail.javamail.JavaMailSenderImpl;</div><div class="line">import org.springframework.stereotype.Service;</div><div class="line"></div><div class="line">import java.util.Properties;</div><div class="line"></div><div class="line">/**</div><div class="line"> * Created by wanggenshen_sx on 2017/5/8.</div><div class="line"> */</div><div class="line">Service</div><div class="line">public class MailSender implements InitializingBean &#123;</div><div class="line">	private static final Logger logger = LoggerFactory.getLogger(MailSender.class);</div><div class="line">	private JavaMailSenderImpl mailSender;</div><div class="line"></div><div class="line">	/**</div><div class="line">	 * 发送邮件</div><div class="line">	 * @param to</div><div class="line">	 */</div><div class="line">	public void sendMail(String to)&#123;</div><div class="line">		SimpleMailMessage mailMessage = new SimpleMailMessage();</div><div class="line">		//发送方邮箱</div><div class="line">		mailMessage.setFrom(&quot;1032335358@qq.com&quot;);</div><div class="line">		//接收方邮箱</div><div class="line">		mailMessage.setTo(to);</div><div class="line">		//发送的邮件主题</div><div class="line">		mailMessage.setSubject(&quot;Spring Mail Sender&quot;);</div><div class="line">		//发送的邮件内容</div><div class="line">		mailMessage.setText(&quot;这是用Spring框架发送的邮件!&quot;);</div><div class="line"></div><div class="line">		mailSender.send(mailMessage);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	/**</div><div class="line">	 * 配置邮件发送器</div><div class="line">	 * @throws Exception</div><div class="line">	 */</div><div class="line">	@Override</div><div class="line">	public void afterPropertiesSet() throws Exception &#123;</div><div class="line">		mailSender = new JavaMailSenderImpl();</div><div class="line">		//用户名</div><div class="line">		mailSender.setUsername(&quot;1032335358@qq.com&quot;);</div><div class="line">		//SMTP客户端的授权码(每个人这个密码不一样，密码与上面的username对应密码相同)</div><div class="line">		mailSender.setPassword(&quot;**********&quot;);</div><div class="line">		// 发件人邮箱的 SMTP 服务器地址</div><div class="line">		mailSender.setHost(&quot;smtp.qq.com&quot;);</div><div class="line">		//邮件服务器监听的端口</div><div class="line">		mailSender.setPort(465);</div><div class="line">		//协议SMTP+SSL</div><div class="line">		mailSender.setProtocol(&quot;smtps&quot;);</div><div class="line">		mailSender.setDefaultEncoding(&quot;utf8&quot;);</div><div class="line">		Properties javaMailProperties = new Properties();</div><div class="line">		javaMailProperties.put(&quot;mail.smtp.ssl.enable&quot;, true);</div><div class="line">		mailSender.setJavaMailProperties(javaMailProperties);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>邮件发送接口<br>写了一个简单邮件发送的接口，可用Postman进行测试：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line">package com.wgs.mailSender.controller;</div><div class="line"></div><div class="line">import com.fasterxml.jackson.databind.util.JSONPObject;</div><div class="line">import com.wgs.mailSender.util.JSONUtil;</div><div class="line">import com.wgs.mailSender.util.MailSender;</div><div class="line">import org.slf4j.Logger;</div><div class="line">import org.slf4j.LoggerFactory;</div><div class="line">import org.springframework.beans.factory.annotation.Autowired;</div><div class="line">import org.springframework.stereotype.Controller;</div><div class="line">import org.springframework.web.bind.annotation.RequestMapping;</div><div class="line">import org.springframework.web.bind.annotation.RequestMethod;</div><div class="line">import org.springframework.web.bind.annotation.ResponseBody;</div><div class="line"></div><div class="line">/**</div><div class="line"> * Created by wanggenshen_sx on 2017/5/8.</div><div class="line"> */</div><div class="line">@Controller</div><div class="line">public class MailSenderController &#123;</div><div class="line">	private static final Logger logger = LoggerFactory.getLogger(MailSenderController.class);</div><div class="line"></div><div class="line">	@Autowired</div><div class="line">	MailSender mailSender;</div><div class="line"></div><div class="line">	@RequestMapping(path = &#123;&quot;/mail/mailSend&quot;&#125;, method = &#123;RequestMethod.POST&#125;)</div><div class="line">	@ResponseBody</div><div class="line">	public String emailSend()&#123;</div><div class="line"></div><div class="line">		try &#123;</div><div class="line">			mailSender.sendMail(&quot;1032335358@qq.com&quot;);</div><div class="line">			return JSONUtil.getJSONString(0, &quot;SUCCESS&quot;);</div><div class="line">		&#125;catch (Exception e)&#123;</div><div class="line">			logger.error(&quot;邮件发送失败: &quot; + e.getMessage());</div><div class="line">			return JSONUtil.getJSONString(1, &quot;FAILED&quot;);</div><div class="line">		&#125;</div><div class="line"></div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>测试<br>运行项目后打开PostMan进行测试：<br><img src="/img/email/5.png" alt=""></p>
+</li>
+</ol>
+<p>从返回的JSON字符串可以看出发送已经成功。<br>并且确实收到一份邮件:<br><img src="/img/email/6.png" alt=""></p>
+<hr>
+<p>参考：<a href="http://blog.csdn.net/xietansheng/article/details/51673073" target="_blank" rel="external">http://blog.csdn.net/xietansheng/article/details/51673073</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/SSM项目/">SSM项目</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Spring/">Spring</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://nomico271.github.io/2017/05/08/Java-Spring实现邮件发送/" data-title="Java + Spring实现邮件的发送 | WGS-Blog" data-tsina="undefined" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2017/04/27/Welcome-to-myblog-wgs-2017-04-27/" title="Welcome to myblog---wgs/2017/04/27">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Welcome to myblog---wgs/2017/04/27</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2017/05/11/Bootstrap练习1-手把手带你做一个简单清新的网页/"  title="Bootstrap练习1-手把手带你做一个简单清新的网页">
+ <strong>下一篇：</strong><br/> 
+ <span>Bootstrap练习1-手把手带你做一个简单清新的网页
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2017/05/08/Java-Spring实现邮件发送/" data-title="Java + Spring实现邮件的发送" data-url="https://nomico271.github.io/2017/05/08/Java-Spring实现邮件发送/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#JavaMail-API-介绍"><span class="toc-number">1.</span> <span class="toc-text">JavaMail API 介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#开启SMTP服务"><span class="toc-number">2.</span> <span class="toc-text">开启SMTP服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#代码实现："><span class="toc-number">3.</span> <span class="toc-text">代码实现：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java-SE-发送Email"><span class="toc-number">4.</span> <span class="toc-text">Java SE 发送Email</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用Spring发送Email"><span class="toc-number">5.</span> <span class="toc-text">使用Spring发送Email</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/SSM项目/" title="SSM项目">SSM项目<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端/" title="前端">前端<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Bootstrap/" title="Bootstrap">Bootstrap<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://github.com/nomico271" target="_blank" title="我的Github">我的Github</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://blog.csdn.net/noaman_wgs/article/details/53893948" target="_blank" title="我的CSDN Blog">我的CSDN Blog</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://blog.csdn.net/xiao__gui/article/month/2012/06" target="_blank" title="吴操的CSDN Blog">吴操的CSDN Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+  
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hi ,I&#39;m WangGenshen. <br/>
+			热爱编程热爱Java,梦想早日成为独挡一面的Java工程师.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/2402772733" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/nomico271" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:wangenshen_noaman@126.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="GenshenWang">GenshenWang</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"Noaman"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?b7c82b0ed3eaea99c7246f534490516e";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
