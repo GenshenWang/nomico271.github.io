@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://nomico271.github.io/"/>
-  <updated>2017-05-15T01:55:15.744Z</updated>
+  <updated>2017-05-15T01:58:32.574Z</updated>
   <id>https://nomico271.github.io/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="https://nomico271.github.io/2017/05/15/RPC%E4%BB%8B%E7%BB%8D%E4%B8%8E%E7%AE%80%E5%8D%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%AE%9E%E7%8E%B0/"/>
     <id>https://nomico271.github.io/2017/05/15/RPC介绍与简单框架的实现/</id>
     <published>2017-05-15T01:44:59.000Z</published>
-    <updated>2017-05-15T01:55:15.744Z</updated>
+    <updated>2017-05-15T01:58:32.574Z</updated>
     
     <content type="html"><![CDATA[<h1 id="RPC介绍与代码实现"><a href="#RPC介绍与代码实现" class="headerlink" title="RPC介绍与代码实现"></a>RPC介绍与代码实现</h1><p>RPC的英文资料网站：<a href="https://www.cs.rutgers.edu/~pxk/417/notes/03-rpc.html" target="_blank" rel="external">https://www.cs.rutgers.edu/~pxk/417/notes/03-rpc.html</a></p>
 <hr>
@@ -34,7 +34,7 @@
 </blockquote>
 <p>在项目开发当中，大多时候程序都是分布在多个服务器节点组成的集群上当中。<br>比如服务器A的下订单应用程序想要调用服务器B上的支付宝付款应用程序的时候，由于不在同一个内存空间当中，自然无法调用。<br>通俗点地说，就像是你在你的电脑上写了一个程序A实现了某个功能，我在我的电脑上写了一个B程序实现了某个功能。正常情况下我是不能在我的程序中去调用你写的程序的。<br>如何才能做到呢？自然是通过网络。RPC就是提供了这样的实现。</p>
 <hr>
-<h2 id="RPC原理"><a href="#RPC原理" class="headerlink" title="RPC原理"></a>RPC原理</h2><p><img src="img/RPC/RPC_introduction.png" alt=""><br>(图片来源：<a href="https://www.cs.rutgers.edu/~pxk/417/notes/03-rpc.html" target="_blank" rel="external">https://www.cs.rutgers.edu/~pxk/417/notes/03-rpc.html</a>)<br><strong>client functions</strong> : 客户函数。<br><strong>client stub :</strong> 客户句柄。对于客户端来说，客户端想要调用远程服务时是直接找client stub去调用的。实际与远程服务打交道的是client stub。client stub作用就是接收客户端的请求参数(需要序列化)，将请求参数发送到远程服务端(server stub)进行处理，得到处理后的结果(反序列化)再返回给客户端。<br><strong>sockets :</strong>  客户端与远程端的通信就是通过底层的网络协议进行通信的(建立TCP连接)<br><strong>server stub：服务器句柄，</strong>也叫做skeleton。skeleton的作用是接收客户端的请求参数，然后调用服务端实际处理程序(<strong>server functions</strong>)处理并获取结果。</p>
+<h2 id="RPC原理"><a href="#RPC原理" class="headerlink" title="RPC原理"></a>RPC原理</h2><p><img src="/img/RPC/RPC_introduction.png" alt=""><br>(图片来源：<a href="https://www.cs.rutgers.edu/~pxk/417/notes/03-rpc.html" target="_blank" rel="external">https://www.cs.rutgers.edu/~pxk/417/notes/03-rpc.html</a>)<br><strong>client functions</strong> : 客户函数。<br><strong>client stub :</strong> 客户句柄。对于客户端来说，客户端想要调用远程服务时是直接找client stub去调用的。实际与远程服务打交道的是client stub。client stub作用就是接收客户端的请求参数(需要序列化)，将请求参数发送到远程服务端(server stub)进行处理，得到处理后的结果(反序列化)再返回给客户端。<br><strong>sockets :</strong>  客户端与远程端的通信就是通过底层的网络协议进行通信的(建立TCP连接)<br><strong>server stub：服务器句柄，</strong>也叫做skeleton。skeleton的作用是接收客户端的请求参数，然后调用服务端实际处理程序(<strong>server functions</strong>)处理并获取结果。</p>
 <hr>
 <h2 id="RPC调用过程："><a href="#RPC调用过程：" class="headerlink" title="RPC调用过程："></a>RPC调用过程：</h2><blockquote>
 <ol>
@@ -57,30 +57,23 @@
 <p><strong>3. 序列化和反序列化问题</strong><br>远程过程调用传输的数据是通过网络协议进行传输的，所以这些数据需要进行序列化与反序列化处理。</p>
 </blockquote>
 <hr>
-<h2 id="RPC实现所需要考虑的几个问题"><a href="#RPC实现所需要考虑的几个问题" class="headerlink" title="RPC实现所需要考虑的几个问题"></a>RPC实现所需要考虑的几个问题</h2><ol>
-<li><p>怎么做到透明化远程服务调用？</p>
+<h2 id="RPC实现所需要考虑的几个问题"><a href="#RPC实现所需要考虑的几个问题" class="headerlink" title="RPC实现所需要考虑的几个问题"></a>RPC实现所需要考虑的几个问题</h2><p><strong>1. 怎么做到透明化远程服务调用？</strong></p>
 <blockquote>
-<p>怎么封装通信细节才能让用户像以本地调用方式调用远程服务呢？对java来说就是使用代理！java代理有两种方式：1） jdk 动态代理；2）字节码生成。<br>尽管字节码生成方式实现的代理更为强大和高效，但代码不易维护，大部分公司实现RPC框架时还是选择动态代理方式。</p>
+<p>怎么封装通信细节才能让用户像以本地调用方式调用远程服务呢？对java来说就是使用代理！<br>java代理有两种方式：1） jdk 动态代理；2）字节码生成。<br>尽管字节码生成方式实现的代理更为强大和高效，但代码不易维护，大部分公司实现RPC框架时还是选择动态代理方式。</p>
 </blockquote>
-</li>
-<li><p>确定消息数据结构</p>
+<p><strong>2. 确定消息数据结构</strong></p>
 <blockquote>
 <p>1）接口名称<br>2）方法名<br>3）参数类型&amp;参数值<br>4）超时时间<br>5）requestID，标识唯一请求id </p>
 </blockquote>
-</li>
-<li><p>序列化</p>
+<p><strong>3. 序列化</strong></p>
 <blockquote>
 <p>什么是序列化？<br>序列化就是将数据结构或对象转换成二进制串的过程，也就是编码的过程。<br>什么是反序列化？<br>将在序列化过程中所生成的二进制串转换成数据结构或者对象的过程。</p>
 </blockquote>
-</li>
-</ol>
 <p>为什么需要序列化？转换为二进制串后才好进行网络传输嘛！为什么需要反序列化？将二进制转换为对象才好进行后续处理！</p>
-<ol>
-<li>通信<blockquote>
+<p><strong>4. 通信</strong></p>
+<blockquote>
 <p>Netty。</p>
 </blockquote>
-</li>
-</ol>
 <hr>
 <h2 id="Java代码实现一个简单的RPC框架"><a href="#Java代码实现一个简单的RPC框架" class="headerlink" title="Java代码实现一个简单的RPC框架"></a>Java代码实现一个简单的RPC框架</h2><p><strong>服务端：</strong><br>服务端是暴露服务。<br>在对Socket操作时，先读后写。</p>
 <blockquote>
