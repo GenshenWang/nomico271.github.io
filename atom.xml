@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://nomico271.github.io/"/>
-  <updated>2017-05-30T07:53:31.695Z</updated>
+  <updated>2017-05-30T07:56:24.393Z</updated>
   <id>https://nomico271.github.io/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="https://nomico271.github.io/2017/05/30/%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/"/>
     <id>https://nomico271.github.io/2017/05/30/动态代理/</id>
     <published>2017-05-30T07:43:38.000Z</published>
-    <updated>2017-05-30T07:53:31.695Z</updated>
+    <updated>2017-05-30T07:56:24.393Z</updated>
     
     <content type="html"><![CDATA[<h1 id="动态代理"><a href="#动态代理" class="headerlink" title="动态代理"></a>动态代理</h1><p>Java有三个动态特性：</p>
 <blockquote>
@@ -92,7 +92,7 @@
 <p>loader：表示类加载器<br>interfaces：表示代理类要实现的接口列表，是一个数组，元素的类型只能是接口，不能是普通的类，例子中只有一个IService<br>h：h的类型为InvocationHandler，它是一个接口，也定义在java.lang.reflect包中，它只定义了一个方法invoke，对代理接口所有方法的调用都会转给该方法</p>
 </blockquote>
 <p>注：newProxyInstance的返回值类型为Object，可以强制转换为interfaces数组中的某个接口类型，这里我们强制转换为了IService类型，需要注意的是，它不能强制转换为某个类类型，比如RealService，即使它实际代理的对象类型为RealService。</p>
-<h3 id="动态代理实现方式一—cglib动态代理"><a href="#动态代理实现方式一—cglib动态代理" class="headerlink" title="动态代理实现方式一—cglib动态代理"></a>动态代理实现方式一—cglib动态代理</h3><p>Java SDK动态代理的局限在于：</p>
+<h3 id="动态代理实现方式二—cglib动态代理"><a href="#动态代理实现方式二—cglib动态代理" class="headerlink" title="动态代理实现方式二—cglib动态代理"></a>动态代理实现方式二—cglib动态代理</h3><p>Java SDK动态代理的局限在于：</p>
 <blockquote>
 <p>它只能为接口创建代理，返回的代理对象也只能转换到某个接口类型，如果一个类没有接口，或者希望代理非接口中定义的方法，那就没有办法了。</p>
 </blockquote>
