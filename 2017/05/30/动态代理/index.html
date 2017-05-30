@@ -11,17 +11,17 @@
     
 
     
-    <meta name="description" content="动态代理Java有三个动态特性：   反射 注解 动态代理   本文主要介绍动态代理的知识。  代理是什么 代理背后一般至少有一个实际对象，代理的外部功能和实际对象一般是一样的，用户与代理打交道，不直接接触实际对象，虽然外部功能和实际对象一样，但代理有它存在的价值:  节省成本比较高的实际对象的创建开销，按需延迟加载，创建代理时并不真正创建实际对象，而只是保存实际对象的地址，在需要时再加载或创建">
+    <meta name="description" content="动态代理Java有三个动态特性：   反射 注解 动态代理   本文主要介绍动态代理的知识。 代理是什么 代理背后一般至少有一个实际对象，代理的外部功能和实际对象一般是一样的，用户与代理打交道，不直接接触实际对象，虽然外部功能和实际对象一样，但代理有它存在的价值:  节省成本比较高的实际对象的创建开销，按需延迟加载，创建代理时并不真正创建实际对象，而只是保存实际对象的地址，在需要时再加载或创建 执">
 <meta name="keywords" content="代理">
 <meta property="og:type" content="article">
 <meta property="og:title" content="动态代理">
 <meta property="og:url" content="https://nomico271.github.io/2017/05/30/动态代理/index.html">
 <meta property="og:site_name" content="WGS-Blog">
-<meta property="og:description" content="动态代理Java有三个动态特性：   反射 注解 动态代理   本文主要介绍动态代理的知识。  代理是什么 代理背后一般至少有一个实际对象，代理的外部功能和实际对象一般是一样的，用户与代理打交道，不直接接触实际对象，虽然外部功能和实际对象一样，但代理有它存在的价值:  节省成本比较高的实际对象的创建开销，按需延迟加载，创建代理时并不真正创建实际对象，而只是保存实际对象的地址，在需要时再加载或创建">
-<meta property="og:updated_time" content="2017-05-30T07:45:41.368Z">
+<meta property="og:description" content="动态代理Java有三个动态特性：   反射 注解 动态代理   本文主要介绍动态代理的知识。 代理是什么 代理背后一般至少有一个实际对象，代理的外部功能和实际对象一般是一样的，用户与代理打交道，不直接接触实际对象，虽然外部功能和实际对象一样，但代理有它存在的价值:  节省成本比较高的实际对象的创建开销，按需延迟加载，创建代理时并不真正创建实际对象，而只是保存实际对象的地址，在需要时再加载或创建 执">
+<meta property="og:updated_time" content="2017-05-30T07:53:31.695Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="动态代理">
-<meta name="twitter:description" content="动态代理Java有三个动态特性：   反射 注解 动态代理   本文主要介绍动态代理的知识。  代理是什么 代理背后一般至少有一个实际对象，代理的外部功能和实际对象一般是一样的，用户与代理打交道，不直接接触实际对象，虽然外部功能和实际对象一样，但代理有它存在的价值:  节省成本比较高的实际对象的创建开销，按需延迟加载，创建代理时并不真正创建实际对象，而只是保存实际对象的地址，在需要时再加载或创建">
+<meta name="twitter:description" content="动态代理Java有三个动态特性：   反射 注解 动态代理   本文主要介绍动态代理的知识。 代理是什么 代理背后一般至少有一个实际对象，代理的外部功能和实际对象一般是一样的，用户与代理打交道，不直接接触实际对象，虽然外部功能和实际对象一样，但代理有它存在的价值:  节省成本比较高的实际对象的创建开销，按需延迟加载，创建代理时并不真正创建实际对象，而只是保存实际对象的地址，在需要时再加载或创建 执">
 
     
     <link rel="alternative" href="/atom.xml" title="WGS-Blog" type="application/atom+xml">
@@ -108,7 +108,6 @@
 </ul>
 </blockquote>
 <p>本文主要介绍动态代理的知识。</p>
-<hr>
 <h2 id="代理是什么"><a href="#代理是什么" class="headerlink" title="代理是什么"></a>代理是什么</h2><blockquote>
 <p>代理背后一般至少有一个实际对象，代理的外部功能和实际对象一般是一样的，用户与代理打交道，不直接接触实际对象，虽然外部功能和实际对象一样，但代理有它存在的价值:</p>
 <ul>
@@ -122,7 +121,6 @@
 <p>动态代理可以在运行时动态地创建一个类，这个类实现一个或多个接口，在不修改原有类的基础上动态地为该类获取的对象添加方法，修改行为。</p>
 </blockquote>
 <p>用大白话解释下就是，你在家外面想有刀削苹果，但是刀在你家里面。怎么办呢？这时候动态代理就可以在你需要刀的时候(anywhere,anytime)为你变出一把刀(但是你用这把变出来的刀削平果的时候其实是在使用家里的刀，这样有点超现实了，但是一时没想出更好的例子)。</p>
-<hr>
 <h2 id="动态代理应用"><a href="#动态代理应用" class="headerlink" title="动态代理应用"></a>动态代理应用</h2><p>为什么要介绍动态代理呢？因为动态代理是面向切面编程(AOP)的基础。是不是很耳熟，没错，相信你在学习Spring的时候已经接触到了Spring AOP的概念了。</p>
 <p><strong>什么是Spring AOP呢？</strong></p>
 <blockquote>
@@ -130,7 +128,6 @@
 </blockquote>
 <p>大白话介绍下就是：<br>比方说有个很爱你的男朋友，跟你异地，想知道 你的吃饭情况，当你准备去吃饭的时候。<br><strong>不使用Spring AOP的情况：</strong><br>不使用Spring AOP的情况就是当你吃饭的时候主动发短信给你男朋友说句“我吃饭了”，吃完饭了再发个短信给你男朋友说句“我吃完饭了”，这样你男朋友就知道你吃饭情况了。这个过程是你的目的是吃饭，但是却在吃饭前后发短信进行汇报，有点惹人怒。要是你男朋友是个女友控，要你随时汇报你的一举一动，时时都要发短信进行汇报，你是不是会疯掉？<br><strong>使用Spring AOP的情况：</strong><br>有了Spring AOP的思想，就可以帮你解决上述烦恼。当你准备吃饭的时候，Spring AOP就能立马检测到并向你的男朋友发送一条短信，在你吃完饭后也会发送短信。这样你就可以安心吃饭而无需担心这些恼人的短信操作了。</p>
 <p><strong>Spring AOP就是动态代理的应用之一，实际上动态代理广泛应用于各种系统程序、框架和库中，如Spring,Hibernate,Mybatis,Guice等。</strong></p>
-<hr>
 <h2 id="动态代理实现的两种方式"><a href="#动态代理实现的两种方式" class="headerlink" title="动态代理实现的两种方式"></a>动态代理实现的两种方式</h2><p>动态代理有两种实现方式，一种是Java SDK提供的，另外一种是第三方库如cglib提供的。<br>介绍这两种方式之前先介绍下静态代理。</p>
 <h3 id="静态代理"><a href="#静态代理" class="headerlink" title="静态代理"></a>静态代理</h3><p>静态代理代码结构比较简单，需要有三个要素：</p>
 <blockquote>
@@ -187,7 +184,6 @@
 </blockquote>
 <p>Enhancer支持多种类型，这里使用的类实现了MethodInterceptor接口，它与Java SDK中的InvocationHandler有点类似，方法名称变成了intercept，多了一个MethodProxy类型的参数。</p>
 <p>与前面的InvocationHandler不同，SimpleInterceptor中没有被代理的对象，它通过MethodProxy的invokeSuper方法调用被代理类的方法：<br><code>Object result = proxy.invokeSuper(object, args);</code></p>
-<hr>
 <h2 id="Java-SDK代理与cglib代理比较"><a href="#Java-SDK代理与cglib代理比较" class="headerlink" title="Java SDK代理与cglib代理比较"></a>Java SDK代理与cglib代理比较</h2><p><strong>Java SDK代理</strong>：面向的是一组接口，<br>它为这些接口动态创建了一个实现类，接口的具体实现逻辑是通过自定义的InvocationHandler实现的，这个实现是自定义的，也就是说，其背后都不一定有真正被代理的对象，也可能多个实际对象，根据情况动态选择。<br><strong>cglib代理</strong>：面向的是一个具体的类，它动态创建了一个新类，继承了该类，重写了其方法。</p>
   
 	</div>
@@ -331,10 +327,10 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2017/05/30/aa/" title="动态代理">
+ <a href="/2017/05/29/一分钟带你弄懂try{return} finally{return}/" title="一分钟带你弄懂try{return} finally{return}">
   <strong>上一篇：</strong><br/>
   <span>
-  动态代理</span>
+  一分钟带你弄懂try{return} finally{return}</span>
 </a>
 </div>
 
@@ -367,7 +363,7 @@
 		<ul>
 		
 		  
-			<li><a href="/categories/JAVA基础/" title="JAVA基础">JAVA基础<sup>3</sup></a></li>
+			<li><a href="/categories/JAVA基础/" title="JAVA基础">JAVA基础<sup>2</sup></a></li>
 		  
 		
 		  
@@ -396,10 +392,6 @@
 			
 		
 			
-				<li><a href="/tags/代理/" title="代理">代理<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/Spring/" title="Spring">Spring<sup>1</sup></a></li>
 			
 		
@@ -409,6 +401,10 @@
 		
 			
 				<li><a href="/tags/return/" title="return">return<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/代理/" title="代理">代理<sup>1</sup></a></li>
 			
 		
 		</ul>
