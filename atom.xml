@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://nomico271.github.io/"/>
-  <updated>2017-05-29T07:09:29.433Z</updated>
+  <updated>2017-05-30T07:45:41.368Z</updated>
   <id>https://nomico271.github.io/</id>
   
   <author>
@@ -14,6 +14,123 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>动态代理</title>
+    <link href="https://nomico271.github.io/2017/05/30/%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/"/>
+    <id>https://nomico271.github.io/2017/05/30/动态代理/</id>
+    <published>2017-05-30T07:43:38.000Z</published>
+    <updated>2017-05-30T07:45:41.368Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="动态代理"><a href="#动态代理" class="headerlink" title="动态代理"></a>动态代理</h1><p>Java有三个动态特性：</p>
+<blockquote>
+<ul>
+<li>反射</li>
+<li>注解</li>
+<li>动态代理</li>
+</ul>
+</blockquote>
+<p>本文主要介绍动态代理的知识。</p>
+<hr>
+<h2 id="代理是什么"><a href="#代理是什么" class="headerlink" title="代理是什么"></a>代理是什么</h2><blockquote>
+<p>代理背后一般至少有一个实际对象，代理的外部功能和实际对象一般是一样的，用户与代理打交道，不直接接触实际对象，虽然外部功能和实际对象一样，但代理有它存在的价值:</p>
+<ul>
+<li>节省成本比较高的实际对象的创建开销，按需延迟加载，创建代理时并不真正创建实际对象，而只是保存实际对象的地址，在需要时再加载或创建</li>
+<li>执行权限检查，代理检查权限后，再调用实际对象</li>
+<li>屏蔽网络差异和复杂性，代理在本地，而实际对象在其他服务器上，调用本地代理时，本地代理请求其他服务器</li>
+</ul>
+</blockquote>
+<h2 id="动态代理是什么"><a href="#动态代理是什么" class="headerlink" title="动态代理是什么"></a>动态代理是什么</h2><p>首先我们来看看动态代理的定义。<br>动态代理：</p>
+<blockquote>
+<p>动态代理可以在运行时动态地创建一个类，这个类实现一个或多个接口，在不修改原有类的基础上动态地为该类获取的对象添加方法，修改行为。</p>
+</blockquote>
+<p>用大白话解释下就是，你在家外面想有刀削苹果，但是刀在你家里面。怎么办呢？这时候动态代理就可以在你需要刀的时候(anywhere,anytime)为你变出一把刀(但是你用这把变出来的刀削平果的时候其实是在使用家里的刀，这样有点超现实了，但是一时没想出更好的例子)。</p>
+<hr>
+<h2 id="动态代理应用"><a href="#动态代理应用" class="headerlink" title="动态代理应用"></a>动态代理应用</h2><p>为什么要介绍动态代理呢？因为动态代理是面向切面编程(AOP)的基础。是不是很耳熟，没错，相信你在学习Spring的时候已经接触到了Spring AOP的概念了。</p>
+<p><strong>什么是Spring AOP呢？</strong></p>
+<blockquote>
+<p>在Java编程中，有很多切面如日志，权限，数据库事务等在程序中都会用到，代码都差不多，但是与具体的业务代码关系不大。<br>如果在每个地方都写这些代码会显得很冗余，难以维护。<br>Spring AOP将切面与主体逻辑的业务代码分离。</p>
+</blockquote>
+<p>大白话介绍下就是：<br>比方说有个很爱你的男朋友，跟你异地，想知道 你的吃饭情况，当你准备去吃饭的时候。<br><strong>不使用Spring AOP的情况：</strong><br>不使用Spring AOP的情况就是当你吃饭的时候主动发短信给你男朋友说句“我吃饭了”，吃完饭了再发个短信给你男朋友说句“我吃完饭了”，这样你男朋友就知道你吃饭情况了。这个过程是你的目的是吃饭，但是却在吃饭前后发短信进行汇报，有点惹人怒。要是你男朋友是个女友控，要你随时汇报你的一举一动，时时都要发短信进行汇报，你是不是会疯掉？<br><strong>使用Spring AOP的情况：</strong><br>有了Spring AOP的思想，就可以帮你解决上述烦恼。当你准备吃饭的时候，Spring AOP就能立马检测到并向你的男朋友发送一条短信，在你吃完饭后也会发送短信。这样你就可以安心吃饭而无需担心这些恼人的短信操作了。</p>
+<p><strong>Spring AOP就是动态代理的应用之一，实际上动态代理广泛应用于各种系统程序、框架和库中，如Spring,Hibernate,Mybatis,Guice等。</strong></p>
+<hr>
+<h2 id="动态代理实现的两种方式"><a href="#动态代理实现的两种方式" class="headerlink" title="动态代理实现的两种方式"></a>动态代理实现的两种方式</h2><p>动态代理有两种实现方式，一种是Java SDK提供的，另外一种是第三方库如cglib提供的。<br>介绍这两种方式之前先介绍下静态代理。</p>
+<h3 id="静态代理"><a href="#静态代理" class="headerlink" title="静态代理"></a>静态代理</h3><p>静态代理代码结构比较简单，需要有三个要素：</p>
+<blockquote>
+<ol>
+<li>共同的接口：定义方法不提供实现，供外部调用；</li>
+<li>实现类：实现上述接口，提供上述方法的具体实现；</li>
+<li>代理类：注入的是实现类，调用接口的方法实际是调用实现类的方法的实现。</li>
+</ol>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div></pre></td><td class="code"><pre><div class="line">package com.wgs.静态代理;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 静态代理</div><div class="line"> * @author GenshenWang.nomico</div><div class="line"> * @time 2017/05/28</div><div class="line"> *</div><div class="line"> */</div><div class="line">public class StaticProxyDemo &#123;</div><div class="line">	</div><div class="line">	//公共接口，没有任何实现,必须.</div><div class="line">	static interface CommonService&#123;</div><div class="line">		public void sayHello();</div><div class="line">	&#125; </div><div class="line">	</div><div class="line">	//公共接口的具体实现</div><div class="line">	static class RealService implements CommonService&#123;</div><div class="line">		@Override</div><div class="line">		public void sayHello() &#123;</div><div class="line">			System.out.println(&quot;hello,静态代理！&quot;);</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	//产生一个代理类，此类必须实现公共接口，作用：具有sayHello功能的类</div><div class="line">	static class StaticProxy implements CommonService&#123;</div><div class="line">		</div><div class="line">		private CommonService realService;</div><div class="line">		</div><div class="line">		//通过构造器注入接口，实际注入接口的是RealService</div><div class="line">		public StaticProxy(CommonService service)&#123;</div><div class="line">			this.realService = service;</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		//此处模拟的即为AOP编程思想。sayHello()方法实现不变，只需在其上下加上一些诸如日志事务等代码，</div><div class="line">		//无需在sayHello()中加上与业务代码无关的代码</div><div class="line">		@Override</div><div class="line">		public void sayHello() &#123;</div><div class="line">			System.out.println(&quot;模拟日志输出1.....&quot;);</div><div class="line">			realService.sayHello();</div><div class="line">			System.out.println(&quot;模拟日志输出2.....&quot;);</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	//测试类</div><div class="line">	public static void main(String[] args) &#123;</div><div class="line">		CommonService service = new RealService();</div><div class="line">		CommonService proxy = new StaticProxy(service);</div><div class="line">		proxy.sayHello();</div><div class="line">		</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>输出：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">模拟日志输出1.....</div><div class="line">hello,静态代理！</div><div class="line">模拟日志输出2.....</div></pre></td></tr></table></figure></p>
+<p>在上述例子中我们可以看到，在不修改sayHello()方法源码的情况下即可在其上下加上调试语句，这个过程是通过代理类实现的。</p>
+<p>为什么叫静态代理呢？<br>可以看到我们在程序中固定的为RealService类造出了一个代理类StaticProxy。<br>缺点就是如果再想为RealServiceB类，RealServiceC类…实现代理类，必须得另建代理类，就会显得很麻烦，这时候就需要动态代理去实现它了。</p>
+<h3 id="动态代理实现方式一—Java-SDK动态代理"><a href="#动态代理实现方式一—Java-SDK动态代理" class="headerlink" title="动态代理实现方式一—Java SDK动态代理"></a>动态代理实现方式一—Java SDK动态代理</h3><p>在静态代理中，代理类Proxy是直接定义在代码中的，而在动态代理中，代理是动态生成的，代码实现如下：</p>
+<ol>
+<li><p>首先需要一个公共接口：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">package com.wgs.动态代理;</div><div class="line"></div><div class="line">public interface CommonService &#123;</div><div class="line">	</div><div class="line">	void sayHello();</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>公共接口的实现类，是被代理的实际对象：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">package com.wgs.动态代理;</div><div class="line"></div><div class="line">public class CommonServiceImpl implements CommonService &#123;</div><div class="line"></div><div class="line">	@Override</div><div class="line">	public void sayHello() &#123;</div><div class="line">		System.out.println(&quot;hello 动态代理！&quot;);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>动态产生代理类：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre></td><td class="code"><pre><div class="line">package com.wgs.动态代理;</div><div class="line"></div><div class="line">import java.lang.reflect.InvocationHandler;</div><div class="line">import java.lang.reflect.Method;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 动态代理类作用： 为一个真实对象产生一个类。</div><div class="line"> * 这个类具有真实对象的某个或者所有的功能</div><div class="line"> * 每一个动态代理类都要实现一个InvocationHandler</div><div class="line"> * </div><div class="line"> * -------------------------------------</div><div class="line"> * 拿移动营业厅来说。我们每个人都需要交话费，不能直接去移动总公司去交吧，</div><div class="line"> * 所以每个地方都有个移动营业厅，其功能跟移动总公司是一样的.他负责与我们打交道。</div><div class="line"> * </div><div class="line"> * @author GenshenWang.nomico</div><div class="line"> * @time 2017/05/28</div><div class="line"> */</div><div class="line">public class DynamicProxyHanlder implements InvocationHandler&#123;</div><div class="line"></div><div class="line">	//要代理的真实对象</div><div class="line">	private Object obj;</div><div class="line">	</div><div class="line">	//注入的是实际对象</div><div class="line">	public DynamicProxyHanlder(Object realObj)&#123;</div><div class="line">		this.obj = realObj;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	/**</div><div class="line">	 * @proxy: Object proxy没有太大作用</div><div class="line">	 * @method: 想要调用的方法</div><div class="line">	 * @args:传入的参数值</div><div class="line">	 */</div><div class="line">	@Override</div><div class="line">	public Object invoke(Object proxy, Method method, Object[] args) throws Throwable &#123;</div><div class="line">		</div><div class="line">		System.out.println(&quot;模拟日志输出1.....&quot;);</div><div class="line">		//实际执行的业务代码，可能有返回值.注入实际接口与参数值</div><div class="line">		method.invoke(obj, args);</div><div class="line">		System.out.println(&quot;模拟日志输出2.....&quot;);</div><div class="line">		return null;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	</div><div class="line">	</div><div class="line">	</div><div class="line">	</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>产生动态代理对象并测试Proxy.newProxyInstance：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">package com.wgs.动态代理;</div><div class="line"></div><div class="line">import java.lang.reflect.InvocationHandler;</div><div class="line">import java.lang.reflect.Proxy;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 测试类</div><div class="line"> * @author GenshenWang.nomico</div><div class="line"> * @time 2017/05/28</div><div class="line"> *</div><div class="line"> */</div><div class="line">public class Client &#123;</div><div class="line">	</div><div class="line">	public static void main(String[] args) &#123;</div><div class="line">		//代理的真实对象</div><div class="line">		CommonService realService = new CommonServiceImpl();</div><div class="line">		//产生一个代理类</div><div class="line">		InvocationHandler proxyHandler = new DynamicProxyHanlder(realService);</div><div class="line">		</div><div class="line">		//产生一个代理对象</div><div class="line">		CommonService proxyService = </div><div class="line">				(CommonService) Proxy.newProxyInstance(</div><div class="line">						CommonService.class.getClassLoader(),</div><div class="line">						new Class&lt;?&gt;[]&#123;CommonService.class&#125;, </div><div class="line">						proxyHandler);</div><div class="line">		</div><div class="line">		proxyService.sayHello();</div><div class="line">		</div><div class="line">		</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>这里有两个地方要详细解释下。<br><strong>1. InvocationHandler</strong><br>第一个就是生成动态代理类的时候类需要实现InvocationHandler，它的构造方法接受一个参数realObj表示被代理的对象，<br>invoke方法处理所有的接口调用，它有三个参数：</p>
+<blockquote>
+<ul>
+<li>proxy：表示代理对象本身，需要注意，它不是被代理的对象，这个参数一般用处不大</li>
+<li>method：表示正在被调用的方法</li>
+<li>args ：表示方法的参数</li>
+</ul>
+</blockquote>
+<p><strong>2. Proxy.newProxyInstance</strong><br>使用java.lang.reflect包中的Proxy类的静态方法newProxyInstance来创建代理对象，方法定义如下：<br><code>public static Object newProxyInstance(ClassLoader loader, Class&lt;?&gt;[] interfaces, InvocationHandler h)</code><br>三个参数：</p>
+<blockquote>
+<p>loader：表示类加载器<br>interfaces：表示代理类要实现的接口列表，是一个数组，元素的类型只能是接口，不能是普通的类，例子中只有一个IService<br>h：h的类型为InvocationHandler，它是一个接口，也定义在java.lang.reflect包中，它只定义了一个方法invoke，对代理接口所有方法的调用都会转给该方法</p>
+</blockquote>
+<p>注：newProxyInstance的返回值类型为Object，可以强制转换为interfaces数组中的某个接口类型，这里我们强制转换为了IService类型，需要注意的是，它不能强制转换为某个类类型，比如RealService，即使它实际代理的对象类型为RealService。</p>
+<h3 id="动态代理实现方式一—cglib动态代理"><a href="#动态代理实现方式一—cglib动态代理" class="headerlink" title="动态代理实现方式一—cglib动态代理"></a>动态代理实现方式一—cglib动态代理</h3><p>Java SDK动态代理的局限在于：</p>
+<blockquote>
+<p>它只能为接口创建代理，返回的代理对象也只能转换到某个接口类型，如果一个类没有接口，或者希望代理非接口中定义的方法，那就没有办法了。</p>
+</blockquote>
+<p>有一个第三方的类库cglib(<a href="https://github.com/cglib/cglib)可以做到这一点，Spring,Hibernate等都使用该类库。" target="_blank" rel="external">https://github.com/cglib/cglib)可以做到这一点，Spring,Hibernate等都使用该类库。</a></p>
+<p><strong>cglib:</strong><br>cglib实现机制与Java SDK不同，它是通过继承实现的。</p>
+<blockquote>
+<p>cglib动态地创建了一个类，但这个类的父类是被代理的类，代理类重写了父类所有public非final得方法，改为调用callback中的相关方法。</p>
+</blockquote>
+<p>代码实现：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div></pre></td><td class="code"><pre><div class="line">package com.wgs.动态代理;</div><div class="line"></div><div class="line">import java.lang.reflect.Method;</div><div class="line"></div><div class="line">import net.sf.cglib.proxy.Enhancer;</div><div class="line">import net.sf.cglib.proxy.MethodInterceptor;</div><div class="line">import net.sf.cglib.proxy.MethodProxy;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 动态代理实现方式二---cglib</div><div class="line"> * @author GenshenWang.nomico</div><div class="line"> * @time 2017/5/30</div><div class="line"> *</div><div class="line"> */</div><div class="line">public class CGLibDemo &#123;</div><div class="line">	</div><div class="line">	/**</div><div class="line">	 * 被代理的类，不需要实现接口</div><div class="line">	 * @author GenshenWang.nomico</div><div class="line">	 *</div><div class="line">	 */</div><div class="line">	static class RealService&#123;</div><div class="line">		public void sayHello()&#123;</div><div class="line">			System.out.println(&quot;hello，cglib&quot;);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	</div><div class="line">	static class SimpleInterceptor implements MethodInterceptor &#123;</div><div class="line"></div><div class="line">		@Override</div><div class="line">		public Object intercept(Object object, Method method,</div><div class="line">				Object[] args, MethodProxy proxy) throws Throwable &#123;</div><div class="line">			</div><div class="line">			System.out.println(&quot;模拟日志输出1.。。。&quot;);</div><div class="line">			Object result = proxy.invokeSuper(object, args);</div><div class="line">			System.out.println(&quot;模拟日志输出2.。。。&quot;);</div><div class="line">			</div><div class="line">			return result;</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	/**</div><div class="line">	 * 为一个类生产代理对象</div><div class="line">	 * @param clazz</div><div class="line">	 * @return</div><div class="line">	 */</div><div class="line">	@SuppressWarnings(&quot;unchecked&quot;)</div><div class="line">	private static &lt;T&gt; T getProxy(Class&lt;T&gt; clazz)&#123;</div><div class="line">		Enhancer enhancer = new Enhancer();</div><div class="line">		enhancer.setSuperclass(clazz);</div><div class="line">		enhancer.setCallback(new SimpleInterceptor());</div><div class="line">		</div><div class="line">		return (T)enhancer.create();</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	/**</div><div class="line">	 * 测试</div><div class="line">	 */</div><div class="line">	 public static void main(String[] args) throws Exception &#123;</div><div class="line">	     RealService proxyService = getProxy(RealService.class);</div><div class="line">	     proxyService.sayHello();</div><div class="line">	 &#125;</div><div class="line">	</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>RealService：被代理的类，没有接口。<br>getProxy() ： 为一个类(RealService)生成代理对象；<br>cglib的Enhancer类：<br>setSuperclass设置被代理的类；<br>setCallback设置被代理类的public非final方法被调用时的处理类</p>
+</blockquote>
+<p>Enhancer支持多种类型，这里使用的类实现了MethodInterceptor接口，它与Java SDK中的InvocationHandler有点类似，方法名称变成了intercept，多了一个MethodProxy类型的参数。</p>
+<p>与前面的InvocationHandler不同，SimpleInterceptor中没有被代理的对象，它通过MethodProxy的invokeSuper方法调用被代理类的方法：<br><code>Object result = proxy.invokeSuper(object, args);</code></p>
+<hr>
+<h2 id="Java-SDK代理与cglib代理比较"><a href="#Java-SDK代理与cglib代理比较" class="headerlink" title="Java SDK代理与cglib代理比较"></a>Java SDK代理与cglib代理比较</h2><p><strong>Java SDK代理</strong>：面向的是一组接口，<br>它为这些接口动态创建了一个实现类，接口的具体实现逻辑是通过自定义的InvocationHandler实现的，这个实现是自定义的，也就是说，其背后都不一定有真正被代理的对象，也可能多个实际对象，根据情况动态选择。<br><strong>cglib代理</strong>：面向的是一个具体的类，它动态创建了一个新类，继承了该类，重写了其方法。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;动态代理&quot;&gt;&lt;a href=&quot;#动态代理&quot; class=&quot;headerlink&quot; title=&quot;动态代理&quot;&gt;&lt;/a&gt;动态代理&lt;/h1&gt;&lt;p&gt;Java有三个动态特性：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;反射&lt;/li&gt;
+&lt;li&gt;注解&lt;/li&gt;
+&lt;li
+    
+    </summary>
+    
+      <category term="JAVA基础" scheme="https://nomico271.github.io/categories/JAVA%E5%9F%BA%E7%A1%80/"/>
+    
+    
+      <category term="代理" scheme="https://nomico271.github.io/tags/%E4%BB%A3%E7%90%86/"/>
+    
+  </entry>
   
   <entry>
     <title>一分钟带你弄懂try{return} finally{return}</title>
