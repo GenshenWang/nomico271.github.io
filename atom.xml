@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://nomico271.github.io/"/>
-  <updated>2017-06-14T14:18:12.894Z</updated>
+  <updated>2017-06-14T14:21:28.429Z</updated>
   <id>https://nomico271.github.io/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="https://nomico271.github.io/2017/06/14/Java%20Date%E4%B8%8ECalendar%E5%B0%8F%E7%A9%B6%E4%BB%A5%E5%8F%8A%E5%BA%94%E7%94%A8Gregoriancalendar%E7%B1%BB%E5%AE%9E%E7%8E%B0%E7%AE%80%E5%8D%95%E7%9A%84%E6%97%A5%E5%8E%86/"/>
     <id>https://nomico271.github.io/2017/06/14/Java Date与Calendar小究以及应用Gregoriancalendar类实现简单的日历/</id>
     <published>2017-06-14T14:14:39.000Z</published>
-    <updated>2017-06-14T14:18:12.894Z</updated>
+    <updated>2017-06-14T14:21:28.429Z</updated>
     
     <content type="html"><![CDATA[<p>关于时间与日期操作，标准Java类库包含了两个类：</p>
 <ul>
@@ -84,6 +84,10 @@
     
     </summary>
     
+      <category term="JAVA基础" scheme="https://nomico271.github.io/categories/JAVA%E5%9F%BA%E7%A1%80/"/>
+    
+    
+      <category term="日期Date/calendar" scheme="https://nomico271.github.io/tags/%E6%97%A5%E6%9C%9FDate-calendar/"/>
     
   </entry>
   
