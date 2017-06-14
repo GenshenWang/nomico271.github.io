@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://nomico271.github.io/"/>
-  <updated>2017-05-30T07:56:24.393Z</updated>
+  <updated>2017-06-14T14:18:12.894Z</updated>
   <id>https://nomico271.github.io/</id>
   
   <author>
@@ -14,6 +14,78 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Java Date与Calendar小究以及应用Gregoriancalendar类实现简单的日历</title>
+    <link href="https://nomico271.github.io/2017/06/14/Java%20Date%E4%B8%8ECalendar%E5%B0%8F%E7%A9%B6%E4%BB%A5%E5%8F%8A%E5%BA%94%E7%94%A8Gregoriancalendar%E7%B1%BB%E5%AE%9E%E7%8E%B0%E7%AE%80%E5%8D%95%E7%9A%84%E6%97%A5%E5%8E%86/"/>
+    <id>https://nomico271.github.io/2017/06/14/Java Date与Calendar小究以及应用Gregoriancalendar类实现简单的日历/</id>
+    <published>2017-06-14T14:14:39.000Z</published>
+    <updated>2017-06-14T14:18:12.894Z</updated>
+    
+    <content type="html"><![CDATA[<p>关于时间与日期操作，标准Java类库包含了两个类：</p>
+<ul>
+<li><strong>Date类 :</strong> 表示时间</li>
+<li><strong>GregorianCalendar：</strong>表示日历，继承了Calendar类。</li>
+</ul>
+<h2 id="Date类"><a href="#Date类" class="headerlink" title="Date类"></a>Date类</h2><p>java,util.Date，可直接输出其实例化对象，<br>格式如：”Wed Jun 14 17:17:47 CST 2017”</p>
+<h3 id="Date类主要API"><a href="#Date类主要API" class="headerlink" title="Date类主要API:"></a><strong>Date类主要API:</strong></h3><blockquote>
+<ul>
+<li>getTime(): 获取当前系统的时间(距离1970年1月1日0时开始走过的秒数)，返回一个长整数。</li>
+<li>before(Date date): 一个时间点是否早于另一个时间点；</li>
+<li>after(Date date): 一个时间点是否晚于另一个时间点；</li>
+</ul>
+</blockquote>
+<p>Date类也有getDay，getMonth，getYear等方法，但已经不推荐使用。<br>测试代码说如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">/* Date */</div><div class="line">Date date = new Date();</div><div class="line">System.out.println(date);		System.out.println(&quot;当前时间：&quot; + date.getTime());</div></pre></td></tr></table></figure></p>
+<p>输出如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Wed Jun 14 16:00:07 CST 2017</div><div class="line">当前时间：1497427207277</div></pre></td></tr></table></figure></p>
+<p>Date构造函数构建了一个日期对象，没有接受任何参数。这个构造函数在内部使用了<code>System.currentTimeMillis()</code> 获取当前系统的时间。</p>
+<p>但是上述返回的时间不太容易看出，需要一个类来对这个返回的时间进行格式化，显示出我们常见的形式：</p>
+<h3 id="DateFormat-SimpleDateFormat类"><a href="#DateFormat-SimpleDateFormat类" class="headerlink" title="DateFormat,SimpleDateFormat类"></a>DateFormat,SimpleDateFormat类</h3><p>SimpleDateFormat继承DateFormat，可对日期进行格式化，返回我们想要的日期格式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">/*  DateFormat  SimpleDateFormat */</div><div class="line">SimpleDateFormat sdf = new SimpleDateFormat(&quot;yyyy-MM-dd-EE&quot;);</div><div class="line">System.out.println(&quot;当前时间：&quot; + sdf.format(new Date()));</div><div class="line">		</div><div class="line">sdf = new SimpleDateFormat(&quot;EE-dd-MM-yyyy&quot;);</div><div class="line">System.out.println(&quot;当前时间2：&quot; + sdf.format(new Date()));</div><div class="line"></div><div class="line">sdf = new SimpleDateFormat(&quot;yyyy&quot;);</div><div class="line">System.out.println(&quot;当前年份：&quot; + sdf.format(new Date()));</div><div class="line">sdf = new SimpleDateFormat(&quot;MM&quot;);</div><div class="line">System.out.println(&quot;当前月份：&quot; + sdf.format(new Date()));</div><div class="line">sdf = new SimpleDateFormat(&quot;dd&quot;);</div><div class="line">System.out.println(&quot;当前日期：&quot; + sdf.format(new Date()));</div></pre></td></tr></table></figure></p>
+<p>输出如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">当前时间：2017-06-14-星期三</div><div class="line">当前时间2：星期三-14-06-2017</div><div class="line">当前年份：2017当前月份：06</div><div class="line">当前日期：14</div></pre></td></tr></table></figure></p>
+<p>比较常用的就是按照想要的日期格式获取当前时间的代码：<br><code>SimpleDateFormat sdf = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);</code><br><code>sdf.format(new Date());</code></p>
+<h2 id="Calendar-，Gregoriancalendar类"><a href="#Calendar-，Gregoriancalendar类" class="headerlink" title="Calendar ，Gregoriancalendar类"></a>Calendar ，Gregoriancalendar类</h2><p>Calendar 类可以将日期精确到毫秒，所包含的方法比Date类多的多。</p>
+<p>Calendar 类是一个抽象类，Gregoriancalendar拓展了Calendar类。</p>
+<h3 id="Gregoriancalendar-API-如下："><a href="#Gregoriancalendar-API-如下：" class="headerlink" title="Gregoriancalendar API 如下："></a><strong>Gregoriancalendar API 如下：</strong></h3><p><strong>构造函数</strong></p>
+<blockquote>
+<ul>
+<li>public GregorianCalendar() :   构造一个日历对象，用来表示默认地区/时区的当前时间；</li>
+<li>public GregorianCalendar(int year, int month, int dayOfMonth) : 根据给定日期时间构造一个Gregoriancalendar 对象；<br>  <strong>注：month是从0开始，0表示一月，11表示十二月</strong></li>
+<li>GregorianCalendar(int year, int month, int dayOfMonth,int hourOfDay, int minute, int second, int millis) </li>
+</ul>
+</blockquote>
+<p><strong>常用 方法：</strong></p>
+<blockquote>
+<ul>
+<li>int get(int field) : 获取给定域的值：可以获取年月日，时分秒等等；</li>
+<li>void set(int field， int value) ： 设置给定域的时间</li>
+<li>void set(int year,int month, int day) </li>
+<li>void set(int year,int month, int day,<pre><code>int hour, int minutes, int seconds) 
+</code></pre></li>
+<li>Date getTime():  获得当前值表达的时间点</li>
+<li>void setTime(Date time) : 设置为指定的日期；</li>
+<li>void add(int field, int amount) : 给指定域增加时间。可以是负值</li>
+</ul>
+</blockquote>
+<p><strong>测试代码如下：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">/* Calendar  Gregoriancalendar */</div><div class="line">Calendar calendar = new GregorianCalendar();</div><div class="line">System.out.println(&quot;年份：&quot; + calendar.get(Calendar.YEAR));</div><div class="line">System.out.println(&quot;月份：&quot; + (calendar.get(Calendar.MONTH) + 1));</div><div class="line">System.out.println(&quot;在一年中第几天：&quot; + calendar.get(Calendar.DAY_OF_YEAR));</div><div class="line">System.out.println(&quot;在一月中第几天：&quot; + calendar.get(Calendar.DAY_OF_MONTH));</div><div class="line">System.out.println(&quot;在一周中第几天：&quot; + calendar.get(Calendar.DAY_OF_WEEK));</div><div class="line">System.out.println(&quot;时：&quot; + calendar.get(Calendar.HOUR));</div><div class="line">System.out.println(&quot;分：&quot; + calendar.get(Calendar.MINUTE));</div><div class="line">System.out.println(&quot;秒：&quot; + calendar.get(Calendar.SECOND));</div></pre></td></tr></table></figure></p>
+<p><strong>输出如下;</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">年份：2017</div><div class="line">月份：6</div><div class="line">在一年中第几天：165</div><div class="line">在一月中第几天：14</div><div class="line">在一周中第几天：4</div><div class="line">时：5</div><div class="line">分：32</div><div class="line">秒：2</div></pre></td></tr></table></figure></p>
+<h2 id="应用Gregoriancalendar-类显示当前月的日历"><a href="#应用Gregoriancalendar-类显示当前月的日历" class="headerlink" title="应用Gregoriancalendar 类显示当前月的日历"></a>应用Gregoriancalendar 类显示当前月的日历</h2><p>下面应用Gregoriancalendar类实现一个显示当前月的日历，当前日用一个*号标记。</p>
+<p><strong>实现的代码如下：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div></pre></td><td class="code"><pre><div class="line">package com.wgs.日期;</div><div class="line"></div><div class="line">import java.text.DateFormatSymbols;</div><div class="line">import java.util.Calendar;</div><div class="line">import java.util.GregorianCalendar;</div><div class="line">import java.util.Locale;</div><div class="line"></div><div class="line">public class CalendarTest &#123;</div><div class="line">	</div><div class="line">	public static void buildCalendar()&#123;</div><div class="line">		//国际化(每个地区每周的第一天不一样)</div><div class="line">		Locale.setDefault(Locale.US);</div><div class="line">		</div><div class="line">		GregorianCalendar gCalendar = new GregorianCalendar();</div><div class="line">		</div><div class="line">		//获取月份，日</div><div class="line">		int today = gCalendar.get(Calendar.DAY_OF_MONTH);</div><div class="line">		int month = gCalendar.get(Calendar.MONTH);</div><div class="line">		</div><div class="line">		</div><div class="line">		//将一个月的第一天设置为1号</div><div class="line">		gCalendar.set(Calendar.DAY_OF_MONTH, 1);</div><div class="line">		//得到每周第1天为周几(注：每周第一天需区分周日还是周一)</div><div class="line">		int weekDay = gCalendar.get(Calendar.DAY_OF_WEEK);</div><div class="line">		</div><div class="line">		//获取每周起始日(周日还是周一)</div><div class="line">		int firstDayOfWeek = gCalendar.getFirstDayOfWeek();</div><div class="line">		</div><div class="line">		/**</div><div class="line">		 * 日历第一行需要缩进</div><div class="line">		 * </div><div class="line">		 * 比如，本程序中</div><div class="line">		 * weekDay ： 一周的第5天</div><div class="line">		 * firstDayOfWeek ： 每周第一天为周1</div><div class="line">		 * 周四与周一相差3 所以第一行缩进4个单位</div><div class="line">		 */</div><div class="line">		int indent = 0;</div><div class="line">		while (weekDay != firstDayOfWeek)&#123;</div><div class="line">			indent++;</div><div class="line">			gCalendar.add(Calendar.DAY_OF_MONTH, -1);</div><div class="line">			weekDay = gCalendar.get(Calendar.DAY_OF_WEEK);</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		</div><div class="line">		System.out.println(&quot;-----------日历----------&quot;);</div><div class="line">		//获取表示星期的英文表示：US:【Sun Mon Tue Wed Thu Fri Sat】</div><div class="line">		//               CHINA:【 星期日 星期一 星期二 星期三 星期四 星期五 星期六】</div><div class="line">		String[] weekdayNames = new DateFormatSymbols().getShortWeekdays();</div><div class="line">		//打印</div><div class="line">		do&#123;</div><div class="line">			//4个字符串</div><div class="line">			System.out.printf(&quot;%4s&quot;, weekdayNames[weekDay]);</div><div class="line">			gCalendar.add(Calendar.DAY_OF_WEEK, 1);</div><div class="line">			weekDay = gCalendar.get(Calendar.DAY_OF_WEEK);</div><div class="line">		&#125;while (weekDay != firstDayOfWeek);</div><div class="line">		</div><div class="line">		System.out.println();</div><div class="line">		//第一行缩进</div><div class="line">		for (int i = 1; i &lt;= indent; i++)&#123;</div><div class="line">			//空4格</div><div class="line">			System.out.print(&quot;    &quot;);</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		gCalendar.set(Calendar.DAY_OF_MONTH, 1);</div><div class="line">		do&#123;</div><div class="line">			int day = gCalendar.get(Calendar.DAY_OF_MONTH);</div><div class="line">			System.out.printf(&quot;%3d&quot;, day);</div><div class="line">			</div><div class="line">			//当前日标记*</div><div class="line">			if(day == today)&#123;</div><div class="line">				System.out.print(&quot;*&quot;);</div><div class="line">			&#125;else&#123;</div><div class="line">				System.out.print(&quot; &quot;);</div><div class="line">			&#125;</div><div class="line">			//继续打印一周的下一天</div><div class="line">			gCalendar.add(Calendar.DAY_OF_MONTH, 1);</div><div class="line">			weekDay = gCalendar.get(Calendar.DAY_OF_WEEK);</div><div class="line">			 </div><div class="line">			//若当前日为周一，则表示到了下周，换行继续打印</div><div class="line">			if(weekDay == firstDayOfWeek)&#123;</div><div class="line">				System.out.println();</div><div class="line">			&#125;</div><div class="line">			</div><div class="line">		&#125;while(gCalendar.get(Calendar.MONTH) == month);//只要还在当月，就继续打印</div><div class="line">		</div><div class="line">		if(weekDay != firstDayOfWeek)&#123;</div><div class="line">			System.out.println();</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public static void main(String[] args) &#123;</div><div class="line">		</div><div class="line">		buildCalendar();</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>输出如图：</strong><br><img src="/img/calendar/calendar.png" alt=""></p>
+<hr>
+<p>参考：<a href="http://blog.csdn.net/e421083458/article/details/8530280" target="_blank" rel="external">http://blog.csdn.net/e421083458/article/details/8530280</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;关于时间与日期操作，标准Java类库包含了两个类：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Date类 :&lt;/strong&gt; 表示时间&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;GregorianCalendar：&lt;/strong&gt;表示日历，继承了Calendar类。&lt;/li&gt;
+
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>动态代理</title>
