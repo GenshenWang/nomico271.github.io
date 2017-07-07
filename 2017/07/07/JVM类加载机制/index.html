@@ -4,24 +4,27 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>一分钟带你弄懂try{return} finally{return} | WGS-Blog</title>
+    <title>JVM类加载机制 | WGS-Blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="GenshenWang">
     
 
     
-    <meta name="description" content="一分钟带你弄懂try{return} finally{return}不得不说博主我是个标题党，一分钟肯定是弄不懂这个return机制的，但是足够让你了解这个return原理了。 首先上一段代码，并说出你的答案：123456789101112131415161718class Test &amp;#123;    public static int getX() &amp;#123;        int x =">
-<meta name="keywords" content="return">
+    <meta name="description" content="JVM类加载机制一 类加载机制JVM类加载分为5个过程：加载，验证，准备，解析，初始化，使用，卸载，如下图所示： 下面来看看加载，验证，准备，解析，初始化这5个过程的具体动作。 1.1 加载加载主要是将.class文件（并不一定是.class。可以是ZIP包，网络中获取）中的二进制字节流读入到JVM中。在加载阶段，JVM需要完成3件事：  通过类的全限定名获取该类的二进制字节流； 将字节流所代表的">
+<meta name="keywords" content="类加载机制">
 <meta property="og:type" content="article">
-<meta property="og:title" content="一分钟带你弄懂try{return} finally{return}">
-<meta property="og:url" content="https://nomico271.github.io/2017/05/29/一分钟带你弄懂try{return} finally{return}/index.html">
+<meta property="og:title" content="JVM类加载机制">
+<meta property="og:url" content="https://nomico271.github.io/2017/07/07/JVM类加载机制/index.html">
 <meta property="og:site_name" content="WGS-Blog">
-<meta property="og:description" content="一分钟带你弄懂try{return} finally{return}不得不说博主我是个标题党，一分钟肯定是弄不懂这个return机制的，但是足够让你了解这个return原理了。 首先上一段代码，并说出你的答案：123456789101112131415161718class Test &amp;#123;    public static int getX() &amp;#123;        int x =">
-<meta property="og:updated_time" content="2017-05-29T07:09:29.433Z">
+<meta property="og:description" content="JVM类加载机制一 类加载机制JVM类加载分为5个过程：加载，验证，准备，解析，初始化，使用，卸载，如下图所示： 下面来看看加载，验证，准备，解析，初始化这5个过程的具体动作。 1.1 加载加载主要是将.class文件（并不一定是.class。可以是ZIP包，网络中获取）中的二进制字节流读入到JVM中。在加载阶段，JVM需要完成3件事：  通过类的全限定名获取该类的二进制字节流； 将字节流所代表的">
+<meta property="og:image" content="https://nomico271.github.io/img/JVM/classlaoder/1.png">
+<meta property="og:image" content="https://nomico271.github.io/img/JVM/classlaoder/2.png">
+<meta property="og:updated_time" content="2017-07-07T02:07:21.553Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="一分钟带你弄懂try{return} finally{return}">
-<meta name="twitter:description" content="一分钟带你弄懂try{return} finally{return}不得不说博主我是个标题党，一分钟肯定是弄不懂这个return机制的，但是足够让你了解这个return原理了。 首先上一段代码，并说出你的答案：123456789101112131415161718class Test &amp;#123;    public static int getX() &amp;#123;        int x =">
+<meta name="twitter:title" content="JVM类加载机制">
+<meta name="twitter:description" content="JVM类加载机制一 类加载机制JVM类加载分为5个过程：加载，验证，准备，解析，初始化，使用，卸载，如下图所示： 下面来看看加载，验证，准备，解析，初始化这5个过程的具体动作。 1.1 加载加载主要是将.class文件（并不一定是.class。可以是ZIP包，网络中获取）中的二进制字节流读入到JVM中。在加载阶段，JVM需要完成3件事：  通过类的全限定名获取该类的二进制字节流； 将字节流所代表的">
+<meta name="twitter:image" content="https://nomico271.github.io/img/JVM/classlaoder/1.png">
 
     
     <link rel="alternative" href="/atom.xml" title="WGS-Blog" type="application/atom+xml">
@@ -77,14 +80,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/05/29/一分钟带你弄懂try{return} finally{return}/" title="一分钟带你弄懂try{return} finally{return}" itemprop="url">一分钟带你弄懂try{return} finally{return}</a>
+      <a href="/2017/07/07/JVM类加载机制/" title="JVM类加载机制" itemprop="url">JVM类加载机制</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="GenshenWang" target="_blank" itemprop="author">GenshenWang</a>
 		
   <p class="article-time">
-    <time datetime="2017-05-29T07:00:33.000Z" itemprop="datePublished"> 发表于 2017-05-29</time>
+    <time datetime="2017-07-07T02:05:13.000Z" itemprop="datePublished"> 发表于 2017-07-07</time>
     <span id="busuanzi_container_page_pv">
     总阅读<span id="busuanzi_value_page_pv"></span>次
 	</span>
@@ -95,42 +98,50 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一分钟带你弄懂try-return-finally-return"><span class="toc-number">1.</span> <span class="toc-text">一分钟带你弄懂try{return} finally{return}</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#JVM类加载机制"><span class="toc-number">1.</span> <span class="toc-text">JVM类加载机制</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#一-类加载机制"><span class="toc-number">1.1.</span> <span class="toc-text">一 类加载机制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-加载"><span class="toc-number">1.1.1.</span> <span class="toc-text">1.1 加载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-连接"><span class="toc-number">1.1.2.</span> <span class="toc-text">1.2 连接</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-1-验证"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">1.2.1 验证</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-2-准备"><span class="toc-number">1.1.2.2.</span> <span class="toc-text">1.2.2 准备</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-3-解析"><span class="toc-number">1.1.2.3.</span> <span class="toc-text">1.2.3 解析</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-初始化"><span class="toc-number">1.1.3.</span> <span class="toc-text">1.3 初始化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二-类加载器"><span class="toc-number">1.2.</span> <span class="toc-text">二 类加载器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#双亲委派模型的工作过程"><span class="toc-number">1.2.1.</span> <span class="toc-text">双亲委派模型的工作过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#双亲委派模型的代码实现"><span class="toc-number">1.2.2.</span> <span class="toc-text">双亲委派模型的代码实现</span></a></li></ol></li></ol></li></ol>
 		
 		</div>
 		
-		<h1 id="一分钟带你弄懂try-return-finally-return"><a href="#一分钟带你弄懂try-return-finally-return" class="headerlink" title="一分钟带你弄懂try{return} finally{return}"></a>一分钟带你弄懂try{return} finally{return}</h1><p>不得不说博主我是个标题党，一分钟肯定是弄不懂这个return机制的，但是足够让你了解这个return原理了。</p>
-<p>首先上一段代码，并说出你的答案：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">class Test &#123;</div><div class="line">    public static int getX() &#123;</div><div class="line">        int x = 1;</div><div class="line"></div><div class="line">        try &#123;</div><div class="line">            return ++x;</div><div class="line">        &#125; catch (Exception e) &#123;</div><div class="line"></div><div class="line">        &#125; finally &#123;</div><div class="line">            x=5;</div><div class="line">        &#125;</div><div class="line">        return x;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public static void main(String[] args) &#123;</div><div class="line">        System.out.println(getX());</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>看完题目后，是不是觉得很简单呢？如果你的答案是5，那么恭喜你，答错了，请继续耐心听我扯下去吧。</p>
-<p>想问3个问题：</p>
-<blockquote>
+		<h1 id="JVM类加载机制"><a href="#JVM类加载机制" class="headerlink" title="JVM类加载机制"></a>JVM类加载机制</h1><h2 id="一-类加载机制"><a href="#一-类加载机制" class="headerlink" title="一 类加载机制"></a>一 类加载机制</h2><p>JVM类加载分为5个过程：加载，验证，准备，解析，初始化，使用，卸载，如下图所示：<br><img src="/img/JVM/classlaoder/1.png" alt=""></p>
+<p>下面来看看加载，验证，准备，解析，初始化这5个过程的具体动作。</p>
+<h3 id="1-1-加载"><a href="#1-1-加载" class="headerlink" title="1.1 加载"></a>1.1 加载</h3><p>加载主要是将.class文件（并不一定是.class。可以是ZIP包，网络中获取）中的二进制字节流读入到JVM中。<br>在加载阶段，JVM需要完成3件事：</p>
 <ul>
-<li>try语句块中的return是否执行了？</li>
-<li>finally语句块中的return是否执行了？如果执行了，是如何执行完try语句块的return又继续执行finally语句块的x=5?</li>
-<li>是先执行try语句块的return还是finally语句块的x=5？</li>
+<li>通过类的全限定名获取该类的二进制字节流；</li>
+<li>将字节流所代表的静态存储结构转化为方法区的运行时数据结构；</li>
+<li>在内存中生成一个该类的java.lang.Class对象，作为方法区这个类的各种数据的访问入口。</li>
 </ul>
-</blockquote>
-<p>带着这三个问题，我们来看下面进一步的解释。<br>首先我们需要知道：</p>
-<blockquote>
-<p>return: 用来当做终止语句的，可用来返回值且跳出当前方法；<br>finally ： 无论try 语句发生什么，异常还是正常执行，finally都会执行。</p>
-</blockquote>
-<p>因此无论try里执行了return语句、break语句、还是continue语句，finally语句块还会继续执行。唯一一种不执行finally的情况是在try中调用<code>System.exit()</code>来执行它。</p>
-<p>好了，下面来揭晓谜底。<br>根据官方的JVM规范：</p>
-<blockquote>
-<p><strong>如果try语句里有return，那么代码的行为如下：</strong><br>1.如果有返回值，就把返回值保存到局部变量中<br>2.执行jsr指令跳到finally语句里执行<br>3.执行完finally语句后，返回之前保存在局部变量表里的值</p>
-<p><strong>如果try，finally语句里均有return，忽略try的return，而使用finally的return.</strong></p>
-</blockquote>
-<p>所以结合3个问题再回过头看题目就是：<br>首先执行try语句块的<code>return ++x</code>，执行完++x后并不立即return，而是将x的值赋值给局部变量表中分配的某个内存的值临时变量y(y=2)。<br>然后执行finally语句的<code>x=5</code>,此时x=5,<br><strong>但是</strong> 根据上述JVM规范所述：</p>
-<blockquote>
-<p><strong>如果try，finally语句里均有return，忽略try的return，而使用finally的return.</strong></p>
-</blockquote>
-<p>因此执行结束后返回的是之前保存的y值，y=2.</p>
-<p>即try语句块的finally执行完后将x值保存起来，最后返回的一定是这个保存的值，而不是finally语句块中对x操作后的值。弄懂了吗？是不是很简单呢？下面再看一道题：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">class Test &#123;</div><div class="line">    public static int getX() &#123;</div><div class="line">        int x = 1;</div><div class="line"></div><div class="line">        try &#123;</div><div class="line">            return ++x;</div><div class="line">        &#125; catch (Exception e) &#123;</div><div class="line"></div><div class="line">        &#125; finally &#123;</div><div class="line">            x=5;</div><div class="line">            return x;</div><div class="line">            </div><div class="line">        &#125;</div><div class="line">        return x;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public static void main(String[] args) &#123;</div><div class="line">        System.out.println(getX());</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>答案是5，你是否答对了？<br>根据JVM规范可知：</p>
-<blockquote>
-<p><strong>如果try，finally语句里均有return，忽略try的return，而使用finally的return.</strong></p>
-</blockquote>
-  
+<h3 id="1-2-连接"><a href="#1-2-连接" class="headerlink" title="1.2 连接"></a>1.2 连接</h3><h4 id="1-2-1-验证"><a href="#1-2-1-验证" class="headerlink" title="1.2.1 验证"></a>1.2.1 验证</h4><p>验证是连接阶段的第一步，主要确保加载进来的字节流符合JVM规范。<br>验证阶段会完成以下4个阶段的检验动作：</p>
+<ul>
+<li>文件格式验证</li>
+<li>元数据验证(是否符合Java语言规范)</li>
+<li>字节码验证（确定程序语义合法，符合逻辑）</li>
+<li>符号引用验证（确保下一步的解析能正常执行）</li>
+</ul>
+<h4 id="1-2-2-准备"><a href="#1-2-2-准备" class="headerlink" title="1.2.2 准备"></a>1.2.2 准备</h4><p>准备是连接阶段的第二步，主要为静态变量在方法区分配内存，并设置默认初始值。</p>
+<h4 id="1-2-3-解析"><a href="#1-2-3-解析" class="headerlink" title="1.2.3 解析"></a>1.2.3 解析</h4><p>解析是连接阶段的第三步，是虚拟机将常量池内的符号引用替换为直接引用的过程。</p>
+<h3 id="1-3-初始化"><a href="#1-3-初始化" class="headerlink" title="1.3 初始化"></a>1.3 初始化</h3><p>初始化阶段是类加载过程的最后一步，主要是根据程序中的赋值语句主动为类变量赋值。<br>注：<br>1）当有父类且父类为初始化的时候，先去初始化父类；<br>2）再进行子类初始化语句。</p>
+<p><strong>什么时候需要对类进行初始化？</strong></p>
+<ul>
+<li>使用new该类实例化对象的时候；</li>
+<li>读取或设置类静态字段的时候（但被final修饰的字段，在编译器时就被放入常量池的静态字段除外static final）；</li>
+<li>调用类静态方法的时候；</li>
+<li>使用反射Class.forName(“xxxx”)对类进行反射调用的时候，该类需要初始化；</li>
+<li>初始化一个类的时候，有父类，先初始化父类（注：1. 接口除外，父接口在调用的时候才会被初始化；2.子类引用父类静态字段，只会引发父类初始化）；</li>
+<li>被标明为启动类的类（即包含main()方法的类）要初始化；</li>
+<li>当使用JDK1.7的动态语言支持时，如果一个java.invoke.MethodHandle实例最后的解析结果REF_getStatic、REF_putStatic、REF_invokeStatic的方法句柄，并且这个方法句柄所对应的类没有进行过初始化，则需要先触发其初始化。</li>
+</ul>
+<p>以上情况称为对一个类进行主动引用，且有且只要以上几种情况需要对类进行初始化。</p>
+<h2 id="二-类加载器"><a href="#二-类加载器" class="headerlink" title="二 类加载器"></a>二 类加载器</h2><p><strong>类加载器实现的功能是即为加载阶段获取二进制字节流的时候。</strong><br>JVM提供了以下3种系统的类加载器：</p>
+<ul>
+<li><strong>启动类加载器（Bootstrap ClassLoader）：</strong>最顶层的类加载器，负责加载 JAVA_HOME\lib 目录中的，或通过-Xbootclasspath参数指定路径中的，且被虚拟机认可（按文件名识别，如rt.jar）的类。</li>
+<li><strong>扩展类加载器(Extension ClassLoader)：</strong>负责加载 JAVA_HOME\lib\ext 目录中的，或通过java.ext.dirs系统变量指定路径中的类库。</li>
+<li><strong>应用程序类加载器(Application ClassLoader)：</strong>也叫做系统类加载器，可以通过getSystemClassLoader()获取，负责加载用户路径（classpath）上的类库。如果没有自定义类加载器，一般这个就是默认的类加载器。</li>
+</ul>
+<p>类加载器之间的层次关系如下：<br><img src="/img/JVM/classlaoder/2.png" alt=""><br>照片来源：<a href="http://www.importnew.com/25295.html" target="_blank" rel="external">http://www.importnew.com/25295.html</a></p>
+<p>类加载器之间的这种层次关系叫做双亲委派模型。<br>双亲委派模型要求除了顶层的启动类加载器（Bootstrap ClassLoader）外，其余的类加载器都应当有自己的父类加载器。这里的类加载器之间的父子关系一般不是以继承关系实现的，而是用组合实现的。</p>
+<h3 id="双亲委派模型的工作过程"><a href="#双亲委派模型的工作过程" class="headerlink" title="双亲委派模型的工作过程"></a>双亲委派模型的工作过程</h3><p>如果一个类接受到类加载请求，他自己不会去加载这个请求，而是将这个类加载请求委派给父类加载器，这样一层一层传送，直到到达启动类加载器（Bootstrap ClassLoader）。<br>只有当父类加载器无法加载这个请求时，子加载器才会尝试自己去加载。</p>
+<h3 id="双亲委派模型的代码实现"><a href="#双亲委派模型的代码实现" class="headerlink" title="双亲委派模型的代码实现"></a>双亲委派模型的代码实现</h3><p>双亲委派模型的代码实现集中在java.lang.ClassLoader的loadClass()方法当中。<br>1）首先检查类是否被加载，没有则调用父类加载器的loadClass()方法；<br>2）若父类加载器为空，则默认使用启动类加载器作为父加载器；<br>3）若父类加载失败，抛出ClassNotFoundException 异常后，再调用自己的findClass() 方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">protected synchronized Class&lt;?&gt; loadClass(String name, boolean resolve) throws ClassNotFoundException &#123;</div><div class="line">    //1 首先检查类是否被加载</div><div class="line">    Class c = findLoadedClass(name);</div><div class="line">    if (c == null) &#123;</div><div class="line">        try &#123;</div><div class="line">            if (parent != null) &#123;</div><div class="line">             //2 没有则调用父类加载器的loadClass()方法；</div><div class="line">                c = parent.loadClass(name, false);</div><div class="line">            &#125; else &#123;</div><div class="line">            //3 若父类加载器为空，则默认使用启动类加载器作为父加载器；</div><div class="line">                c = findBootstrapClass0(name);</div><div class="line">            &#125;</div><div class="line">        &#125; catch (ClassNotFoundException e) &#123;</div><div class="line">           //4 若父类加载失败，抛出ClassNotFoundException 异常后</div><div class="line">            c = findClass(name);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    if (resolve) &#123;</div><div class="line">	    //5 再调用自己的findClass() 方法。</div><div class="line">        resolveClass(c);</div><div class="line">    &#125;</div><div class="line">    return c;</div><div class="line">&#125;</div></pre></td></tr></table></figure>  
 	</div>
 	
 	<!-- css -->
@@ -243,13 +254,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/JAVA基础/">JAVA基础</a>
+  <a class="article-category-link" href="/categories/JVM/">JVM</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/return/">return</a>
+  <span></span> <a href="/tags/类加载机制/">类加载机制</a>
   </div>
 
 </div>
@@ -258,7 +269,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://nomico271.github.io/2017/05/29/一分钟带你弄懂try{return} finally{return}/" data-title="一分钟带你弄懂try{return} finally{return} | WGS-Blog" data-tsina="2402772733" class="share clearfix">
+	  <div data-url="https://nomico271.github.io/2017/07/07/JVM类加载机制/" data-title="JVM类加载机制 | WGS-Blog" data-tsina="2402772733" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -272,27 +283,19 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2017/05/15/RPC介绍与简单框架的实现/" title="RPC介绍与简单框架的实现">
+ <a href="/2017/06/14/Java Date与Calendar小究以及应用Gregoriancalendar类实现简单的日历/" title="Java Date与Calendar小究以及应用Gregoriancalendar类实现简单的日历">
   <strong>上一篇：</strong><br/>
   <span>
-  RPC介绍与简单框架的实现</span>
+  Java Date与Calendar小究以及应用Gregoriancalendar类实现简单的日历</span>
 </a>
 </div>
 
-
-<div class="next">
-<a href="/2017/05/30/动态代理/"  title="动态代理">
- <strong>下一篇：</strong><br/> 
- <span>动态代理
-</span>
-</a>
-</div>
 
 </nav>
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2017/05/29/一分钟带你弄懂try{return} finally{return}/" data-title="一分钟带你弄懂try{return} finally{return}" data-url="https://nomico271.github.io/2017/05/29/一分钟带你弄懂try{return} finally{return}/"></div>
+	<div class="ds-thread" data-thread-key="2017/07/07/JVM类加载机制/" data-title="JVM类加载机制" data-url="https://nomico271.github.io/2017/07/07/JVM类加载机制/"></div>
 </section>
 
 
@@ -302,7 +305,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一分钟带你弄懂try-return-finally-return"><span class="toc-number">1.</span> <span class="toc-text">一分钟带你弄懂try{return} finally{return}</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#JVM类加载机制"><span class="toc-number">1.</span> <span class="toc-text">JVM类加载机制</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#一-类加载机制"><span class="toc-number">1.1.</span> <span class="toc-text">一 类加载机制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-加载"><span class="toc-number">1.1.1.</span> <span class="toc-text">1.1 加载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-连接"><span class="toc-number">1.1.2.</span> <span class="toc-text">1.2 连接</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-1-验证"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">1.2.1 验证</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-2-准备"><span class="toc-number">1.1.2.2.</span> <span class="toc-text">1.2.2 准备</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-3-解析"><span class="toc-number">1.1.2.3.</span> <span class="toc-text">1.2.3 解析</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-初始化"><span class="toc-number">1.1.3.</span> <span class="toc-text">1.3 初始化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二-类加载器"><span class="toc-number">1.2.</span> <span class="toc-text">二 类加载器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#双亲委派模型的工作过程"><span class="toc-number">1.2.1.</span> <span class="toc-text">双亲委派模型的工作过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#双亲委派模型的代码实现"><span class="toc-number">1.2.2.</span> <span class="toc-text">双亲委派模型的代码实现</span></a></li></ol></li></ol></li></ol>
  
   </div>
 
